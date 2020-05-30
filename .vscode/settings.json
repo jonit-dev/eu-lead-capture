@@ -1,0 +1,14 @@
+{
+  "workbench.colorTheme": "Activate UMBRA protocol",
+  "files.associations": {
+    "*.js": "javascriptreact",
+    "*.jsx": "javascriptreact",
+    "*.ts": "typescriptreact",
+    "*.tsx": "typescriptreact"
+  },
+  "editor.defaultFormatter": "ms-vscode.vscode-typescript-tslint-plugin",
+  "[javascript]": {
+    "editor.defaultFormatter": "ms-vscode.vscode-typescript-tslint-plugin"
+  },
+  "eslint.enable": false
+}
