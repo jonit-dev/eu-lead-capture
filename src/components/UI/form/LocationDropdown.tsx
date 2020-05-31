@@ -6,21 +6,17 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import React, { useEffect, useState } from 'react';
 
 import { APIHelper } from '../../../helpers/APIHelper';
-import { ICity, ILocation, ILocationForm, IProvince } from '../../../types/form.types';
+import { ICity, IProvince } from '../../../types/form.types';
 
-interface IProps {}
-
-export const LocationDropdown = (props: IProps) => {
+export const LocationDropdown = () => {
   const classes = useStyles();
-  const [location, setLocation] = useState<ILocation>({
-    province: "",
-    city: "",
-  });
 
-  const [formData, setFormData] = useState<ILocationForm>({
-    provinces: [],
-    cities: [],
-  });
+  const [locationProvince, setLocationProvince] = useState<string>("");
+  const [locationCity, setLocationCity] = useState<string>("");
+
+  // form data
+  const [formProvinces, setFormProvinces] = useState<IProvince[]>([]);
+  const [formCities, setFormCities] = useState<ICity[]>([]);
 
   // Load provinces on component start!
   useEffect(() => {
@@ -30,33 +26,44 @@ export const LocationDropdown = (props: IProps) => {
         "/places/Brazil?statesOnly=true"
       );
 
+      const provinces: IProvince[] = response.data;
       console.log(response.data);
-      setFormData({
-        provinces: response.data,
-        cities: [],
-      });
+      setFormProvinces(provinces);
+      setLocationProvince(provinces[0].stateCode);
     };
 
     fetchProvinces();
   }, []);
 
+  // On state select or change, load all cities
+
+  useEffect(() => {
+    const fetchCities = async () => {
+      const response = await APIHelper.request(
+        "GET",
+        `/places/Brazil/${locationProvince}?citiesOnly=true`
+      );
+
+      const cities: ICity[] = response.data;
+
+      console.log(cities);
+      setFormCities(cities);
+      setLocationCity(cities[0].name);
+    };
+    if (locationProvince) {
+      fetchCities();
+    }
+  }, [locationProvince]);
+
   const renderProvinceItems = () =>
-    formData.provinces.map((province: IProvince) => (
+    formProvinces.map((province: IProvince) => (
       <MenuItem value={province.stateCode} key={province.stateCode}>
         {province.stateCode}
       </MenuItem>
     ));
 
   const renderCityItems = () => {
-    if (!formData.cities.length) {
-      return (
-        <MenuItem value={""} key={""}>
-          Selecione um estado primeiro!
-        </MenuItem>
-      );
-    }
-
-    return formData.cities.map((city: ICity) => (
+    return formCities.map((city: ICity) => (
       <MenuItem value={city.name} key={city.name}>
         {city.name}
       </MenuItem>
@@ -70,13 +77,11 @@ export const LocationDropdown = (props: IProps) => {
         <Select
           labelId="state"
           id="state"
-          value={location.province}
-          onChange={(e) =>
-            setLocation({
-              ...location,
-              province: String(e.target.value),
-            })
-          }
+          value={locationProvince}
+          onChange={(e) => {
+            setLocationCity(""); // refresh city (it will be set again once provinces load)
+            setLocationProvince(String(e.target.value));
+          }}
           label="Estado"
           fullWidth
         >
@@ -88,13 +93,10 @@ export const LocationDropdown = (props: IProps) => {
         <Select
           labelId="state"
           id="state"
-          value={location.city}
-          onChange={(e) =>
-            setLocation({
-              ...location,
-              city: String(e.target.value),
-            })
-          }
+          value={locationCity}
+          onChange={(e) => {
+            setLocationCity(String(e.target.value));
+          }}
           label="Cidade"
           fullWidth
         >

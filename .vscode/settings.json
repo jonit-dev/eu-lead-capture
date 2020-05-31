@@ -10,5 +10,15 @@
   "[javascript]": {
     "editor.defaultFormatter": "ms-vscode.vscode-typescript-tslint-plugin"
   },
-  "eslint.enable": false
+  "eslint.enable": false,
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  "[typescriptreact]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  }
 }

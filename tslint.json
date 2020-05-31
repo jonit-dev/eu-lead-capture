@@ -29,9 +29,10 @@
         "no-empty-interface": true,
         "interface-name": true,
         "radix": false,
-        "no-default-export": true,
+        "no-default-export": false,
         "no-unused-variable": false,
-        "member-ordering": false
+        "member-ordering": false,
+        "no-submodule-imports": false
     },
     "rulesDirectory": []
 }

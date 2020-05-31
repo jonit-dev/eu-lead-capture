@@ -40,6 +40,11 @@ export const Register = () => {
     );
   };
 
+  const onHandleSubmit = (e) => {
+    e.preventDefault();
+    console.log(newLead);
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -120,6 +125,7 @@ export const Register = () => {
             color="primary"
             className={classes.submit}
             startIcon={<WhatsAppIcon />}
+            onClick={onHandleSubmit}
           >
             Acessar Grupo
           </Button>
