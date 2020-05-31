@@ -1,19 +1,30 @@
-import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import React from 'react';
+import WhatsAppIcon from '@material-ui/icons/WhatsApp';
+import React, { useState } from 'react';
+
+import { ILead } from '../../types/account.types';
+import { LocationDropdown } from '../UI/form/LocationDropdown';
+import { Logo } from '../UI/Logo';
 
 export const Register = () => {
+  const [newLead, setNewLead] = useState<ILead>({
+    name: "",
+    email: "",
+    stateCode: "",
+    city: "",
+    country: "Brazil",
+    phone: "",
+    jobRoles: [],
+  });
+
   const classes = useStyles();
 
   const renderCopyright = () => {
@@ -33,35 +44,29 @@ export const Register = () => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
+        <Logo />
         <Typography component="h1" variant="h5">
-          Sign up
+          Cadastro Gratuito
         </Typography>
+        <p>
+          Preencha o cadastro abaixo para acessar nossos grupos de WhatsApp!
+        </p>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="fname"
-                name="firstName"
-                variant="outlined"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="lname"
+                id="name"
+                label="Nome"
+                name="name"
+                onChange={(e) =>
+                  setNewLead({
+                    ...newLead,
+                    name: e.target.value,
+                  })
+                }
               />
             </Grid>
             <Grid item xs={12}>
@@ -70,9 +75,15 @@ export const Register = () => {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="E-mail"
                 name="email"
                 autoComplete="email"
+                onChange={(e) =>
+                  setNewLead({
+                    ...newLead,
+                    email: e.target.value,
+                  })
+                }
               />
             </Grid>
             <Grid item xs={12}>
@@ -80,19 +91,27 @@ export const Register = () => {
                 variant="outlined"
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
+                id="phone"
+                label="Celular"
+                name="phone"
+                onChange={(e) =>
+                  setNewLead({
+                    ...newLead,
+                    phone: e.target.value,
+                  })
+                }
               />
             </Grid>
             <Grid item xs={12}>
+              <LocationDropdown />
+            </Grid>
+
+            {/* <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="I want to receive inspiration, marketing promotions and updates via email."
               />
-            </Grid>
+            </Grid> */}
           </Grid>
           <Button
             type="submit"
@@ -100,8 +119,9 @@ export const Register = () => {
             variant="contained"
             color="primary"
             className={classes.submit}
+            startIcon={<WhatsAppIcon />}
           >
-            Sign Up
+            Acessar Grupo
           </Button>
           <Grid container justify="flex-end">
             <Grid item>

@@ -182,4 +182,57 @@ export const groups: IGroup[] = [
       },
     ],
   },
+  {
+    stateCode: AvailableStates.RJ,
+    mainGroups: [
+      {
+        name: "EmpregoUrgente.com RJ #1",
+        url: "https://chat.whatsapp.com/BWONdvqquihKnUqGVhMLb1",
+        status: true,
+      },
+      {
+        name: "EmpregoUrgente.com RJ #2",
+        url: "https://chat.whatsapp.com/EdF7jAo0zTsHWubeiZ4CLv",
+        status: true,
+      },
+      {
+        name: "EmpregoUrgente.com RJ #3",
+        url: "https://chat.whatsapp.com/BPMsLkCLY257otEW7NFE9u",
+        status: true,
+      },
+    ],
+    nicheGroups: [
+      {
+        name: "Vagas Adm &  Atend RJ 1",
+        url: " https://chat.whatsapp.com/ETABpfpwbqA7oaEyzxpaIH",
+        status: true,
+      },
+      {
+        name: "Vagas Estética - RJ  1",
+        url: "https://chat.whatsapp.com/CfBg3LCaQVu83U92KVWnl6",
+        status: true,
+      },
+      {
+        name: "Constr, Indust, Log RJ 1",
+        url: "https://chat.whatsapp.com/BB3na5n8wrjJMoOHZlgUjJ",
+        status: true,
+      },
+      {
+        name: "Saude, Limp, Cuidad RJ 1",
+        url: "https://chat.whatsapp.com/F6mLteT0lDs1kK31A0asDU",
+        status: true,
+      },
+
+      {
+        name: "Vagas Segur & Patr RJ 1",
+        url: "https://chat.whatsapp.com/ICuBcfY8NUI2LYApGiz8xd",
+        status: true,
+      },
+      {
+        name: "Vagas - Vend & Comer RJ 1 ",
+        url: "https://chat.whatsapp.com/EomAznlzalh1TrsU9xmU0B",
+        status: true,
+      },
+    ],
+  },
 ];
