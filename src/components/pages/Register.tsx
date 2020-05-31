@@ -8,17 +8,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { UPDATE_FORM } from '../../store/action-types/form.action.types';
-import { AppContext } from '../../store/app.context';
+import { useDispatch, useGlobalState } from '../../store/app.context';
 import { ILead } from '../../types/account.types';
 import { LocationDropdown } from '../UI/form/LocationDropdown';
 import { Logo } from '../UI/Logo';
 
 export const Register = () => {
-  // @ts-ignore
-  const { state, dispatch } = useContext(AppContext);
+  const form = useGlobalState("form");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch({
@@ -65,7 +65,7 @@ export const Register = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      {state.form.location.city}
+      {form.location.city}
       <CssBaseline />
       <div className={classes.paper}>
         <Logo />

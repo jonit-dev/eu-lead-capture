@@ -8,6 +8,7 @@
     "axios": "^0.19.2",
     "lodash": "^4.17.15",
     "react": "^16.13.1",
+    "react-combine-reducers": "^1.0.3",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
     "styled-components": "^5.1.1",

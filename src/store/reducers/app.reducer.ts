@@ -1,4 +1,4 @@
-import { UPDATE_FORM } from './action-types/form.action.types';
+import { UPDATE_FORM } from '../action-types/form.action.types';
 
 export const appReducer = (state, action) => {
   switch (action.type) {
