@@ -9,16 +9,15 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import { useObserver } from 'mobx-react';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 
-import { StoreContext } from '../../store/store';
+import { useDataStore } from '../../store/store';
 import { ILead } from '../../types/account.types';
-import { IStore } from '../../types/store.types';
 import { LocationDropdown } from '../UI/form/LocationDropdown';
 import { Logo } from '../UI/Logo';
 
 export const Register = () => {
-  const store = useContext<IStore>(StoreContext);
+  const store = useDataStore();
 
   const [newLead, setNewLead] = useState<ILead>({
     name: "",
