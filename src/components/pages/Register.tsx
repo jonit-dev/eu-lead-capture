@@ -11,13 +11,13 @@ import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import { observer } from 'mobx-react';
 import React, { useState } from 'react';
 
-import { useDataStore } from '../../store/store';
+import { useStores } from '../../store/store';
 import { ILead } from '../../types/account.types';
 import { LocationDropdown } from '../UI/form/LocationDropdown';
 import { Logo } from '../UI/Logo';
 
 export const Register = observer(() => {
-  const store = useDataStore();
+  const { formStore, counterStore } = useStores();
 
   const [newLead, setNewLead] = useState<ILead>({
     name: "",
@@ -55,8 +55,8 @@ export const Register = observer(() => {
         <Logo />
 
         <Typography component="h1" variant="h5">
-          Cadastro Gratuito - {store.form.location.city} -{" "}
-          {store.form.location.province}
+          Cadastro Gratuito - {formStore.selectedCity} -{" "}
+          {formStore.selectedProvince} ==> {counterStore.count}
         </Typography>
 
         <p>

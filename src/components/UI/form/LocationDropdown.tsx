@@ -6,11 +6,11 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
 
-import { useDataStore } from '../../../store/store';
+import { useStores } from '../../../store/store';
 import { ICity, IProvince } from '../../../types/form.types';
 
 export const LocationDropdown = observer(() => {
-  const store = useDataStore();
+  const { formStore } = useStores();
 
   const classes = useStyles();
 
@@ -24,16 +24,14 @@ export const LocationDropdown = observer(() => {
   // update store whenever province or city changes
 
   useEffect(() => {
-    store.form.changeLocation("city", locationCity);
-    store.form.changeLocation("province", locationProvince);
-  }, [locationProvince, locationCity, store.form]);
+    formStore.changeCity(locationCity);
+    formStore.changeProvince(locationProvince);
+  }, [locationProvince, locationCity, formStore]);
 
   // Load provinces on component start!
   useEffect(() => {
     const fetchProvinces = async () => {
-      const provinces:
-        | IProvince[]
-        | null = await store.formAPIData.loadProvinces();
+      const provinces: IProvince[] | null = await formStore.loadProvinces();
 
       if (provinces) {
         setFormProvinces(provinces);
@@ -41,13 +39,13 @@ export const LocationDropdown = observer(() => {
       }
     };
     fetchProvinces();
-  }, [store.formAPIData]);
+  }, [formStore]);
 
   // On state select or change, load all cities
 
   useEffect(() => {
     const fetchCities = async () => {
-      const cities: ICity[] | null = await store.formAPIData.loadCities(
+      const cities: ICity[] | null = await formStore.loadCities(
         locationProvince
       );
       if (cities) {
@@ -58,7 +56,7 @@ export const LocationDropdown = observer(() => {
     if (locationProvince) {
       fetchCities();
     }
-  }, [locationProvince, store.formAPIData]);
+  }, [locationProvince, formStore]);
 
   const renderProvinceItems = () =>
     formProvinces?.map((province: IProvince) => (

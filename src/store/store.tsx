@@ -1,33 +1,15 @@
 import 'mobx-react-lite/batchingForReactDom';
 
-import { useLocalStore } from 'mobx-react';
-import React, { createContext } from 'react';
+import { createContext, useContext } from 'react';
 
-import { formStore } from './form.store';
+import { CounterStore } from './counter.store';
+import { FormStore } from './form.store';
 
 // Implementation: https://medium.com/@suraj.kc/mobx-strategies-with-react-hooks-3de23932cb8c
 
-const createStore = () => {
-  return {
-    ...formStore,
-  };
-};
-type TStore = ReturnType<typeof createStore>;
+export const StoresContext = createContext({
+  counterStore: new CounterStore(),
+  formStore: new FormStore(),
+});
 
-export const StoreContext = createContext<TStore | null>(null);
-
-export const StoreProvider = ({ children }) => {
-  const store = useLocalStore(createStore);
-
-  return (
-    <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
-  );
-};
-
-export const useDataStore = () => {
-  const store = React.useContext(StoreContext);
-  if (!store) {
-    throw new Error("useStore must be used within a StoreProvider.");
-  }
-  return store;
-};
+export const useStores = () => useContext(StoresContext);
