@@ -8,30 +8,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
-import React, { useEffect, useState } from 'react';
+import { useObserver } from 'mobx-react';
+import React, { useContext, useState } from 'react';
 
-import { UPDATE_FORM } from '../../store/action-types/form.action.types';
-import { useDispatch, useGlobalState } from '../../store/app.context';
+import { StoreContext } from '../../store/store';
 import { ILead } from '../../types/account.types';
+import { IStore } from '../../types/store.types';
 import { LocationDropdown } from '../UI/form/LocationDropdown';
 import { Logo } from '../UI/Logo';
 
 export const Register = () => {
-  const form = useGlobalState("form");
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch({
-      type: UPDATE_FORM,
-      payload: {
-        key: "location",
-        value: {
-          city: "UPDATED",
-          province: "UPDATED",
-        },
-      },
-    });
-  }, [dispatch]);
+  const store = useContext<IStore>(StoreContext);
 
   const [newLead, setNewLead] = useState<ILead>({
     name: "",
@@ -60,18 +47,22 @@ export const Register = () => {
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    console.log(newLead);
+    store.addBug("Cricket");
   };
 
   return (
     <Container component="main" maxWidth="xs">
-      {form.location.city}
       <CssBaseline />
       <div className={classes.paper}>
         <Logo />
-        <Typography component="h1" variant="h5">
-          Cadastro Gratuito
-        </Typography>
+
+        {useObserver(() => (
+          <Typography component="h1" variant="h5">
+            Cadastro Gratuito - {store.bugs.map((bug) => bug).join(", ")} -{" "}
+            {store.bugsCount}
+          </Typography>
+        ))}
+
         <p>
           Preencha o cadastro abaixo para acessar nossos grupos de WhatsApp!
         </p>

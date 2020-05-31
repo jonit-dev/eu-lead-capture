@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { Register } from './components/pages/Register';
-import { AppProvider } from './store/app.context';
+import { StoreProvider } from './store/store';
 
 function App() {
   return (
-    <AppProvider>
+    <StoreProvider>
       <Register />
-    </AppProvider>
+    </StoreProvider>
   );
 }
 

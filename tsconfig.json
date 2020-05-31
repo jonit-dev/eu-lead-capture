@@ -15,7 +15,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "outDir": "build"
+    "experimentalDecorators": true
   },
   "exclude": ["node_modules"],
   "include": ["src"]
