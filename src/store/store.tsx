@@ -1,12 +1,15 @@
+import 'mobx-react-lite/batchingForReactDom';
+
 import { useLocalStore } from 'mobx-react';
 import React, { createContext } from 'react';
 
-import { IStore } from '../types/store.types';
-import { testStore } from './test.store';
+import { formStore } from './form.store';
+
+// Implementation: https://medium.com/@suraj.kc/mobx-strategies-with-react-hooks-3de23932cb8c
 
 const createStore = () => {
   return {
-    ...testStore,
+    ...formStore,
   };
 };
 type TStore = ReturnType<typeof createStore>;
@@ -14,7 +17,7 @@ type TStore = ReturnType<typeof createStore>;
 export const StoreContext = createContext<TStore | null>(null);
 
 export const StoreProvider = ({ children }) => {
-  const store: IStore = useLocalStore(createStore);
+  const store = useLocalStore(createStore);
 
   return (
     <StoreContext.Provider value={store}>{children}</StoreContext.Provider>

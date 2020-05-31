@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
-import { useObserver } from 'mobx-react';
+import { observer } from 'mobx-react';
 import React, { useState } from 'react';
 
 import { useDataStore } from '../../store/store';
@@ -16,7 +16,7 @@ import { ILead } from '../../types/account.types';
 import { LocationDropdown } from '../UI/form/LocationDropdown';
 import { Logo } from '../UI/Logo';
 
-export const Register = () => {
+export const Register = observer(() => {
   const store = useDataStore();
 
   const [newLead, setNewLead] = useState<ILead>({
@@ -46,7 +46,6 @@ export const Register = () => {
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    store.addBug("Cricket");
   };
 
   return (
@@ -55,12 +54,10 @@ export const Register = () => {
       <div className={classes.paper}>
         <Logo />
 
-        {useObserver(() => (
-          <Typography component="h1" variant="h5">
-            Cadastro Gratuito - {store.bugs.map((bug) => bug).join(", ")} -{" "}
-            {store.bugsCount}
-          </Typography>
-        ))}
+        <Typography component="h1" variant="h5">
+          Cadastro Gratuito - {store.form.location.city} -{" "}
+          {store.form.location.province}
+        </Typography>
 
         <p>
           Preencha o cadastro abaixo para acessar nossos grupos de WhatsApp!
@@ -138,19 +135,19 @@ export const Register = () => {
           >
             Acessar Grupo
           </Button>
-          <Grid container justify="flex-end">
+          {/* <Grid container justify="flex-end">
             <Grid item>
               <Link href="#" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
-          </Grid>
+          </Grid> */}
         </form>
       </div>
       <Box mt={5}>{renderCopyright()}</Box>
     </Container>
   );
-};
+});
 
 const useStyles = makeStyles((theme) => ({
   paper: {

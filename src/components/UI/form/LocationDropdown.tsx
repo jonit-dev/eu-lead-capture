@@ -3,67 +3,72 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
 
-import { APIHelper } from '../../../helpers/APIHelper';
+import { useDataStore } from '../../../store/store';
 import { ICity, IProvince } from '../../../types/form.types';
 
-export const LocationDropdown = () => {
+export const LocationDropdown = observer(() => {
+  const store = useDataStore();
+
   const classes = useStyles();
 
   const [locationProvince, setLocationProvince] = useState<string>("");
   const [locationCity, setLocationCity] = useState<string>("");
 
   // form data
-  const [formProvinces, setFormProvinces] = useState<IProvince[]>([]);
-  const [formCities, setFormCities] = useState<ICity[]>([]);
+  const [formProvinces, setFormProvinces] = useState<IProvince[] | null>([]);
+  const [formCities, setFormCities] = useState<ICity[] | null>([]);
+
+  // update store whenever province or city changes
+
+  useEffect(() => {
+    store.form.changeLocation("city", locationCity);
+    store.form.changeLocation("province", locationProvince);
+  }, [locationProvince, locationCity, store.form]);
 
   // Load provinces on component start!
   useEffect(() => {
     const fetchProvinces = async () => {
-      const response = await APIHelper.request(
-        "GET",
-        "/places/Brazil?statesOnly=true"
-      );
+      const provinces:
+        | IProvince[]
+        | null = await store.formAPIData.loadProvinces();
 
-      const provinces: IProvince[] = response.data;
-      console.log(response.data);
-      setFormProvinces(provinces);
-      setLocationProvince(provinces[0].stateCode);
+      if (provinces) {
+        setFormProvinces(provinces);
+        setLocationProvince(provinces[0].stateCode);
+      }
     };
-
     fetchProvinces();
-  }, []);
+  }, [store.formAPIData]);
 
   // On state select or change, load all cities
 
   useEffect(() => {
     const fetchCities = async () => {
-      const response = await APIHelper.request(
-        "GET",
-        `/places/Brazil/${locationProvince}?citiesOnly=true`
+      const cities: ICity[] | null = await store.formAPIData.loadCities(
+        locationProvince
       );
-
-      const cities: ICity[] = response.data;
-
-      console.log(cities);
-      setFormCities(cities);
-      setLocationCity(cities[0].name);
+      if (cities) {
+        setFormCities(cities);
+        setLocationCity(cities[0].name);
+      }
     };
     if (locationProvince) {
       fetchCities();
     }
-  }, [locationProvince]);
+  }, [locationProvince, store.formAPIData]);
 
   const renderProvinceItems = () =>
-    formProvinces.map((province: IProvince) => (
+    formProvinces?.map((province: IProvince) => (
       <MenuItem value={province.stateCode} key={province.stateCode}>
         {province.stateCode}
       </MenuItem>
     ));
 
   const renderCityItems = () => {
-    return formCities.map((city: ICity) => (
+    return formCities?.map((city: ICity) => (
       <MenuItem value={city.name} key={city.name}>
         {city.name}
       </MenuItem>
@@ -105,7 +110,7 @@ export const LocationDropdown = () => {
       </FormControl>
     </div>
   );
-};
+});
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
