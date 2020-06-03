@@ -20,6 +20,7 @@ import { LocationDropdown } from '../components/UI/form/LocationDropdown';
 import { PositionsOfInterest } from '../components/UI/form/PositionsOfInterest';
 import { Logo } from '../components/UI/Logo';
 import { GenericHelper } from '../helpers/GenericHelper';
+import { GroupHelper } from '../helpers/GroupHelper';
 import { ILead } from '../types/account.types';
 import { NicheGroupType } from '../types/groups.types';
 
@@ -40,7 +41,7 @@ export const Register = observer(() => {
     stateCode: stateCodeParam || "",
     city: cityParam || "",
     country: countryParam || "Brazil",
-    professionalArea: NicheGroupType.OUTR,
+    professionalArea: NicheGroupType.SELECIONE,
     phone: "",
     jobRoles: [],
   });
@@ -63,7 +64,19 @@ export const Register = observer(() => {
   const onHandleSubmit = (e) => {
     e.preventDefault();
 
+    const groupLink = GroupHelper.getGroupLink(
+      newLead.stateCode,
+      newLead.professionalArea
+    );
+
+    if (!groupLink) {
+      console.log(
+        `Nenhum grupo disponivel para o estado de ${newLead.stateCode}. Tente novamente em outro estado.`
+      );
+    }
+
     console.log(newLead);
+    console.log(groupLink);
   };
 
   return (
@@ -164,11 +177,12 @@ export const Register = observer(() => {
                   fullWidth
                 >
                   <MenuItem
-                    value={NicheGroupType.OUTR}
-                    key={NicheGroupType.OUTR}
+                    value={NicheGroupType.SELECIONE}
+                    key={NicheGroupType.SELECIONE}
                   >
-                    Outra Área
+                    Selecione a sua Área...
                   </MenuItem>
+
                   <MenuItem
                     value={NicheGroupType.ADMIN}
                     key={NicheGroupType.ADMIN}
@@ -204,6 +218,12 @@ export const Register = observer(() => {
                     key={NicheGroupType.VEND}
                   >
                     Vendas & Comércio
+                  </MenuItem>
+                  <MenuItem
+                    value={NicheGroupType.OUTR}
+                    key={NicheGroupType.OUTR}
+                  >
+                    Outra Área (Nenhuma das Anteriores)
                   </MenuItem>
                 </Select>
               </FormControl>

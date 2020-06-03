@@ -26,4 +26,5 @@ export enum NicheGroupType {
   SEGUR = "SEGUR",
   VEND = "VEND",
   OUTR = "OUTR",
+  SELECIONE = "SELECIONE",
 }
