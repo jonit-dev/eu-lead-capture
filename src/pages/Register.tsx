@@ -16,11 +16,12 @@ import { observer } from 'mobx-react';
 import React, { useState } from 'react';
 import InputMask from 'react-input-mask';
 
-import { GenericHelper } from '../../helpers/GenericHelper';
-import { ILead } from '../../types/account.types';
-import { NicheGroupType } from '../../types/groups.types';
-import { LocationDropdown } from '../UI/form/LocationDropdown';
-import { Logo } from '../UI/Logo';
+import { LocationDropdown } from '../components/UI/form/LocationDropdown';
+import { PositionsOfInterest } from '../components/UI/form/PositionsOfInterest';
+import { Logo } from '../components/UI/Logo';
+import { GenericHelper } from '../helpers/GenericHelper';
+import { ILead } from '../types/account.types';
+import { NicheGroupType } from '../types/groups.types';
 
 export const Register = observer(() => {
   // const { formStore } = useStores();
@@ -206,6 +207,16 @@ export const Register = observer(() => {
                   </MenuItem>
                 </Select>
               </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <PositionsOfInterest
+                onChange={(poi) =>
+                  setNewLead({
+                    ...newLead,
+                    jobRoles: poi,
+                  })
+                }
+              />
             </Grid>
           </Grid>
           <Button

@@ -8,6 +8,7 @@ export class FormStore {
   @observable selectedProvince;
   @observable provinces;
   @observable cities;
+  @observable positionsOfInterest;
 
   @action
   changeCity = (newCity: string) => {
@@ -44,5 +45,14 @@ export class FormStore {
     console.log(response.data);
 
     return cities;
+  }
+
+  async loadPositionsOfInterest() {
+    const response = await APIHelper.request("GET", `/sectors/keywords/all`);
+
+    const positionsOfInterest: string[] = response.data.keywords;
+    this.positionsOfInterest = positionsOfInterest;
+
+    return positionsOfInterest;
   }
 }
