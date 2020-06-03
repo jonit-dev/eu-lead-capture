@@ -1,9 +1,13 @@
-import Box from '@material-ui/core/Box';
+import { Box } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import FormControl from '@material-ui/core/FormControl';
 import Grid from '@material-ui/core/Grid';
+import InputLabel from '@material-ui/core/InputLabel';
 import Link from '@material-ui/core/Link';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -14,6 +18,7 @@ import InputMask from 'react-input-mask';
 
 import { GenericHelper } from '../../helpers/GenericHelper';
 import { ILead } from '../../types/account.types';
+import { NicheGroupType } from '../../types/groups.types';
 import { LocationDropdown } from '../UI/form/LocationDropdown';
 import { Logo } from '../UI/Logo';
 
@@ -34,6 +39,7 @@ export const Register = observer(() => {
     stateCode: stateCodeParam || "",
     city: cityParam || "",
     country: countryParam || "Brazil",
+    professionalArea: NicheGroupType.OUTR,
     phone: "",
     jobRoles: [],
   });
@@ -55,6 +61,8 @@ export const Register = observer(() => {
 
   const onHandleSubmit = (e) => {
     e.preventDefault();
+
+    console.log(newLead);
   };
 
   return (
@@ -138,6 +146,67 @@ export const Register = observer(() => {
                 label="I want to receive inspiration, marketing promotions and updates via email."
               />
             </Grid> */}
+            <Grid item xs={12}>
+              <FormControl variant="outlined" className={classes.formControl}>
+                <InputLabel>Sua Área Profissional</InputLabel>
+                <Select
+                  labelId="professionalArea"
+                  id="professionalArea"
+                  value={newLead.professionalArea}
+                  onChange={(e) => {
+                    setNewLead({
+                      ...newLead,
+                      professionalArea: String(e.target.value),
+                    });
+                  }}
+                  label="Sua Área Profissional"
+                  fullWidth
+                >
+                  <MenuItem
+                    value={NicheGroupType.OUTR}
+                    key={NicheGroupType.OUTR}
+                  >
+                    Outra Área
+                  </MenuItem>
+                  <MenuItem
+                    value={NicheGroupType.ADMIN}
+                    key={NicheGroupType.ADMIN}
+                  >
+                    Administração & Atendimento
+                  </MenuItem>
+                  <MenuItem
+                    value={NicheGroupType.ESTET}
+                    key={NicheGroupType.ESTET}
+                  >
+                    Beleza & Estética
+                  </MenuItem>
+                  <MenuItem
+                    value={NicheGroupType.CONSTRUC}
+                    key={NicheGroupType.CONSTRUC}
+                  >
+                    Construção, Indústria & Logística
+                  </MenuItem>
+                  <MenuItem
+                    value={NicheGroupType.SAUDE}
+                    key={NicheGroupType.SAUDE}
+                  >
+                    Limpeza, Saúde & Cuidados
+                  </MenuItem>
+                  <MenuItem
+                    value={NicheGroupType.SEGUR}
+                    key={NicheGroupType.SEGUR}
+                  >
+                    Segurança & Patrimônio
+                  </MenuItem>
+                  <MenuItem
+                    value={NicheGroupType.VEND}
+                    key={NicheGroupType.VEND}
+                  >
+                    Vendas & Comércio
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
           </Grid>
           <Button
             type="submit"
@@ -170,6 +239,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+  },
+  formControl: {
+    minWidth: 120,
+    width: "100%",
+    marginBottom: "1rem",
   },
   avatar: {
     margin: theme.spacing(1),

@@ -4,6 +4,7 @@ export interface ILead {
   stateCode: string;
   country: string;
   jobRoles: string[];
+  professionalArea?: string;
   phone?: string;
   city?: string;
 }
