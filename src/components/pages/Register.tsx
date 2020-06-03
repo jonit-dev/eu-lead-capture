@@ -10,7 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import { observer } from 'mobx-react';
 import React, { useState } from 'react';
+import InputMask from 'react-input-mask';
 
+import { GenericHelper } from '../../helpers/GenericHelper';
 import { ILead } from '../../types/account.types';
 import { LocationDropdown } from '../UI/form/LocationDropdown';
 import { Logo } from '../UI/Logo';
@@ -18,12 +20,20 @@ import { Logo } from '../UI/Logo';
 export const Register = observer(() => {
   // const { formStore } = useStores();
 
+  const stateCodeParam = GenericHelper.getUrlQueryParamByName("stateCode");
+  const cityParam = GenericHelper.getUrlQueryParamByName("city");
+  const countryParam = GenericHelper.getUrlQueryParamByName("country");
+
+  console.log(stateCodeParam);
+  console.log(cityParam);
+  console.log(countryParam);
+
   const [newLead, setNewLead] = useState<ILead>({
     name: "",
     email: "",
-    stateCode: "",
-    city: "",
-    country: "Brazil",
+    stateCode: stateCodeParam || "",
+    city: cityParam || "",
+    country: countryParam || "Brazil",
     phone: "",
     jobRoles: [],
   });
@@ -96,23 +106,30 @@ export const Register = observer(() => {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="phone"
-                label="Celular"
-                name="phone"
+              <InputMask
+                mask="(99) 99999-9999"
+                value={newLead.phone}
                 onChange={(e) =>
                   setNewLead({
                     ...newLead,
                     phone: e.target.value,
                   })
                 }
-              />
+              >
+                {() => (
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="phone"
+                    label="Celular"
+                    name="phone"
+                  />
+                )}
+              </InputMask>
             </Grid>
             <Grid item xs={12}>
-              <LocationDropdown />
+              {!stateCodeParam && <LocationDropdown />}
             </Grid>
 
             {/* <Grid item xs={12}>
