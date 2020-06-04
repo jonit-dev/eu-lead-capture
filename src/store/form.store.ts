@@ -1,6 +1,7 @@
 import { action, observable } from 'mobx';
 
 import { APIHelper } from '../helpers/APIHelper';
+import { ILead } from '../types/account.types';
 import { ICity, IProvince } from '../types/form.types';
 
 export class FormStore {
@@ -21,6 +22,13 @@ export class FormStore {
   };
 
   @action
+  async addNewLead(newLead: ILead) {
+    const response = await APIHelper.request("POST", "/leads/save", newLead);
+
+    return response.data;
+  }
+
+  @action
   async loadProvinces() {
     const response = await APIHelper.request(
       "GET",
@@ -34,6 +42,7 @@ export class FormStore {
     return provinces;
   }
 
+  @action
   async loadCities(province: string) {
     const response = await APIHelper.request(
       "GET",
@@ -47,6 +56,7 @@ export class FormStore {
     return cities;
   }
 
+  @action
   async loadPositionsOfInterest() {
     const response = await APIHelper.request("GET", `/sectors/keywords/all`);
 

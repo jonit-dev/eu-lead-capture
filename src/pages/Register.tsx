@@ -12,8 +12,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
+import Alert from '@material-ui/lab/Alert';
 import { observer } from 'mobx-react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InputMask from 'react-input-mask';
 
 import { LocationDropdown } from '../components/UI/form/LocationDropdown';
@@ -21,26 +22,31 @@ import { PositionsOfInterest } from '../components/UI/form/PositionsOfInterest';
 import { Logo } from '../components/UI/Logo';
 import { GenericHelper } from '../helpers/GenericHelper';
 import { GroupHelper } from '../helpers/GroupHelper';
+import { ValidationHelper } from '../helpers/ValidationHelper';
+import { useStores } from '../store/store';
 import { ILead } from '../types/account.types';
 import { NicheGroupType } from '../types/groups.types';
 
 export const Register = observer(() => {
-  // const { formStore } = useStores();
+  const { formStore } = useStores();
 
   const stateCodeParam = GenericHelper.getUrlQueryParamByName("stateCode");
   const cityParam = GenericHelper.getUrlQueryParamByName("city");
-  const countryParam = GenericHelper.getUrlQueryParamByName("country");
 
-  console.log(stateCodeParam);
-  console.log(cityParam);
-  console.log(countryParam);
+  useEffect(() => {
+    if (stateCodeParam) {
+      formStore.changeProvince(stateCodeParam);
+    }
+
+    if (cityParam) {
+      formStore.changeCity(cityParam);
+    }
+  }, [formStore, stateCodeParam, cityParam]);
 
   const [newLead, setNewLead] = useState<ILead>({
     name: "",
     email: "",
-    stateCode: stateCodeParam || "",
-    city: cityParam || "",
-    country: countryParam || "Brazil",
+    country: GenericHelper.getUrlQueryParamByName("country") || "Brazil",
     professionalArea: NicheGroupType.SELECIONE,
     phone: "",
     jobRoles: [],
@@ -53,7 +59,7 @@ export const Register = observer(() => {
       <Typography variant="body2" color="textSecondary" align="center">
         {"Copyright © "}
         <Link color="inherit" href="https://material-ui.com/">
-          Your Website
+          Emprego Urgente
         </Link>{" "}
         {new Date().getFullYear()}
         {"."}
@@ -61,22 +67,49 @@ export const Register = observer(() => {
     );
   };
 
-  const onHandleSubmit = (e) => {
+  const onHandleSubmit = async (e) => {
     e.preventDefault();
 
+    // CLIENT-SIDE VALIDATION ========================================
+
+    const invalidFields = ValidationHelper.validateKeyValue(newLead, {
+      optionalFields: ["phone"],
+      fieldLabels: {
+        name: "Nome",
+        email: "E-mail",
+        country: "País",
+      },
+    });
+
+    if (invalidFields) {
+      window.alert(
+        `Os seguintes campos estão inválidos: ${invalidFields}. Por favor, retorne e corrija antes de prosseguir.`
+      );
+      return;
+    }
+
     const groupLink = GroupHelper.getGroupLink(
-      newLead.stateCode,
+      formStore.selectedProvince,
       newLead.professionalArea
     );
 
     if (!groupLink) {
       console.log(
-        `Nenhum grupo disponivel para o estado de ${newLead.stateCode}. Tente novamente em outro estado.`
+        `Nenhum grupo disponivel para o estado de ${formStore.selectedProvince}. Tente novamente em outro estado.`
       );
+      return;
     }
 
-    console.log(newLead);
-    console.log(groupLink);
+    newLead.stateCode = formStore.selectedProvince;
+    newLead.city = formStore.selectedCity;
+
+    const addNewLeadStatus = await formStore.addNewLead(newLead);
+
+    console.log(addNewLeadStatus);
+
+    console.log(`Redirecting user to: ${groupLink}`);
+
+    window.open(groupLink);
   };
 
   return (
@@ -89,77 +122,23 @@ export const Register = observer(() => {
           Acesse nossos Grupos de WhatsApp
         </Typography>
 
-        <p>
-          Preencha o cadastro abaixo para acessar nossos grupos de WhatsApp!
-        </p>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="name"
-                label="Nome"
-                name="name"
-                onChange={(e) =>
+              <Alert severity="info">
+                Adicione a maior quantidade possível de vagas de seu interesse,
+                pois <strong> iremos lhe avisar por email</strong> assim que uma
+                surgir!
+              </Alert>
+              <PositionsOfInterest
+                onChange={(poi) =>
                   setNewLead({
                     ...newLead,
-                    name: e.target.value,
+                    jobRoles: poi,
                   })
                 }
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="email"
-                label="E-mail"
-                name="email"
-                autoComplete="email"
-                onChange={(e) =>
-                  setNewLead({
-                    ...newLead,
-                    email: e.target.value,
-                  })
-                }
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <InputMask
-                mask="(99) 99999-9999"
-                value={newLead.phone}
-                onChange={(e) =>
-                  setNewLead({
-                    ...newLead,
-                    phone: e.target.value,
-                  })
-                }
-              >
-                {() => (
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="phone"
-                    label="Celular"
-                    name="phone"
-                  />
-                )}
-              </InputMask>
-            </Grid>
-            <Grid item xs={12}>
-              {!stateCodeParam && <LocationDropdown />}
-            </Grid>
-
-            {/* <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid> */}
             <Grid item xs={12}>
               <FormControl variant="outlined" className={classes.formControl}>
                 <InputLabel>Sua Área Profissional</InputLabel>
@@ -223,21 +202,77 @@ export const Register = observer(() => {
                     value={NicheGroupType.OUTR}
                     key={NicheGroupType.OUTR}
                   >
-                    Outra Área (Nenhuma das Anteriores)
+                    <strong>Outra Área (Nenhuma das Anteriores)</strong>
                   </MenuItem>
                 </Select>
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              <PositionsOfInterest
-                onChange={(poi) =>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="name"
+                label="Nome"
+                name="name"
+                onChange={(e) =>
                   setNewLead({
                     ...newLead,
-                    jobRoles: poi,
+                    name: e.target.value,
                   })
                 }
               />
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="email"
+                label="E-mail"
+                name="email"
+                autoComplete="email"
+                onChange={(e) =>
+                  setNewLead({
+                    ...newLead,
+                    email: e.target.value,
+                  })
+                }
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <InputMask
+                mask="(99) 99999-9999"
+                value={newLead.phone}
+                onChange={(e) =>
+                  setNewLead({
+                    ...newLead,
+                    phone: e.target.value,
+                  })
+                }
+              >
+                {() => (
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="phone"
+                    label="Celular (Opcional)"
+                    name="phone"
+                  />
+                )}
+              </InputMask>
+            </Grid>
+            <Grid item xs={12}>
+              {!stateCodeParam && <LocationDropdown />}
+            </Grid>
+
+            {/* <Grid item xs={12}>
+              <FormControlLabel
+                control={<Checkbox value="allowExtraEmails" color="primary" />}
+                label="I want to receive inspiration, marketing promotions and updates via email."
+              />
+            </Grid> */}
           </Grid>
           <Button
             type="submit"
@@ -247,6 +282,7 @@ export const Register = observer(() => {
             className={classes.submit}
             startIcon={<WhatsAppIcon />}
             onClick={onHandleSubmit}
+            size="large"
           >
             Acessar Grupo
           </Button>
