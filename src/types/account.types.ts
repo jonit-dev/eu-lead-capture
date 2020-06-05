@@ -1,17 +1,12 @@
-import { NicheGroupType } from './groups.types';
-
-export interface IUser {
-  name: string;
+export interface ILead {
   email: string;
   stateCode?: string;
   country: string;
-  genericPositions: string[];
-  professionalArea: NicheGroupType | string;
+  jobRoles: string[];
+  professionalArea: string;
   phone?: string;
   city?: string;
   type: UserType | string;
-  password: string;
-  passwordConfirmation: string;
 }
 
 export enum UserType {

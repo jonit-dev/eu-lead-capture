@@ -5,6 +5,7 @@ import Select from '@material-ui/core/Select';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import { useStores } from '../../../store/store';
 import { ICity, IProvince } from '../../../types/form.types';
@@ -91,31 +92,36 @@ export const LocationDropdown = observer(() => {
           {renderProvinceItems()}
         </Select>
       </FormControl>
-      <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel>Cidade</InputLabel>
-        <Select
-          labelId="state"
-          id="state"
-          value={locationCity}
-          onChange={(e) => {
-            setLocationCity(String(e.target.value));
-          }}
-          label="Cidade"
-          fullWidth
-        >
-          {renderCityItems()}
-        </Select>
-      </FormControl>
+      <CityContainer>
+        <FormControl variant="outlined" className={classes.formControl}>
+          <InputLabel>Cidade</InputLabel>
+          <Select
+            labelId="state"
+            id="state"
+            value={locationCity}
+            onChange={(e) => {
+              setLocationCity(String(e.target.value));
+            }}
+            label="Cidade"
+            fullWidth
+          >
+            {renderCityItems()}
+          </Select>
+        </FormControl>
+      </CityContainer>
     </div>
   );
 });
+
+const CityContainer = styled.div`
+  margin-top: 1rem;
+`;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     formControl: {
       minWidth: 120,
       width: "100%",
-      marginBottom: "1rem",
     },
     selectEmpty: {
       marginTop: theme.spacing(2),

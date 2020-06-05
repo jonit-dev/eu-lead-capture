@@ -17,6 +17,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import Alert from '@material-ui/lab/Alert';
+import * as EmailValidator from 'email-validator';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
 import InputMask from 'react-input-mask';
@@ -29,7 +30,7 @@ import { GenericHelper } from '../helpers/GenericHelper';
 import { GroupHelper } from '../helpers/GroupHelper';
 import { ValidationHelper } from '../helpers/ValidationHelper';
 import { useStores } from '../store/store';
-import { IUser, UserType } from '../types/account.types';
+import { ILead, UserType } from '../types/account.types';
 import { NicheGroupType } from '../types/groups.types';
 
 export const Register = observer(() => {
@@ -48,50 +49,55 @@ export const Register = observer(() => {
     }
   }, [formStore, stateCodeParam, cityParam]);
 
-  const [newUser, setNewUser] = useState<IUser>({
-    name: "",
+  const [newLead, setNewLead] = useState<ILead>({
     email: "",
     country: GenericHelper.getUrlQueryParamByName("country") || "Brazil",
-    professionalArea: NicheGroupType.SELECIONE,
-    phone: "",
-    genericPositions: [],
+    professionalArea:
+      GenericHelper.getUrlQueryParamByName("professionalArea") ||
+      NicheGroupType.SELECIONE,
+    jobRoles: [],
     type: UserType.JobSeeker,
-    password: "",
-    passwordConfirmation: "",
+    phone: "",
   });
+
+  const [emailError, setEmailError] = useState<boolean>(false);
 
   const classes = useStyles();
 
   const onHandleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!newUser.genericPositions.length) {
-      console.log("Por favor, selecione ao menos uma vaga de interesse!");
+    if (!newLead.jobRoles.length) {
+      alert("Por favor, selecione ao menos uma vaga/posição de interesse!");
+      return;
     }
 
     // CLIENT-SIDE VALIDATION ========================================
 
-    const invalidFields = ValidationHelper.validateKeyValue(newUser, {
+    const invalidFields = ValidationHelper.validateKeyValue(newLead, {
       optionalFields: ["phone"],
       fieldLabels: {
-        name: "Nome",
         email: "E-mail",
-        country: "País",
-        password: "Senha",
-        passwordConfirmation: "Confirmação de Senha",
       },
     });
 
     if (invalidFields) {
-      window.alert(
+      alert(
         `Os seguintes campos estão inválidos: ${invalidFields}. Por favor, retorne e corrija antes de prosseguir.`
       );
       return;
     }
 
+    // check for email validation
+
+    if (!EmailValidator.validate(newLead.email)) {
+      setEmailError(true);
+      return;
+    }
+
     const groupLink = GroupHelper.getGroupLink(
       formStore.selectedProvince,
-      newUser.professionalArea
+      newLead.professionalArea
     );
 
     if (!groupLink) {
@@ -101,10 +107,10 @@ export const Register = observer(() => {
       return;
     }
 
-    newUser.stateCode = formStore.selectedProvince;
-    newUser.city = formStore.selectedCity;
+    newLead.stateCode = formStore.selectedProvince;
+    newLead.city = formStore.selectedCity;
 
-    const addNewLeadStatus = await formStore.addNewLead(newUser);
+    const addNewLeadStatus = await formStore.addNewLead(newLead);
 
     console.log(addNewLeadStatus);
 
@@ -116,14 +122,14 @@ export const Register = observer(() => {
   const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedType = (event.target as HTMLInputElement).value;
 
-    setNewUser({
-      ...newUser,
+    setNewLead({
+      ...newLead,
       type: selectedType,
     });
   };
 
   const onRenderAlertText = () => {
-    switch (newUser.type) {
+    switch (newLead.type) {
       case UserType.Company:
       case UserType.RecruitmentCompany:
         return (
@@ -160,19 +166,6 @@ export const Register = observer(() => {
           Cadastre-se para os Grupos de WhatsApp
         </Typography>
 
-        <p>
-          Para participar dos nossos grupos de WhatsApp, realize seu{" "}
-          <strong>cadastro gratuito.</strong> Criaremos também sua conta no{" "}
-          <a
-            href="https://empregourgente.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            empregourgente.com
-          </a>
-          , para que você acesse nossas oportunidades exclusivas.
-        </p>
-
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -181,7 +174,7 @@ export const Register = observer(() => {
                 <RadioGroup
                   aria-label="gender"
                   name="gender1"
-                  value={newUser.type}
+                  value={newLead.type}
                   onChange={handleTypeChange}
                 >
                   <FormControlLabel
@@ -205,11 +198,11 @@ export const Register = observer(() => {
             <Grid item xs={12}>
               <Alert severity="info">{onRenderAlertText()}</Alert>
               <PositionsOfInterest
-                userType={newUser.type}
+                userType={newLead.type}
                 onChange={(poi) =>
-                  setNewUser({
-                    ...newUser,
-                    genericPositions: poi,
+                  setNewLead({
+                    ...newLead,
+                    jobRoles: poi,
                   })
                 }
               />
@@ -220,10 +213,10 @@ export const Register = observer(() => {
                 <Select
                   labelId="professionalArea"
                   id="professionalArea"
-                  value={newUser.professionalArea}
+                  value={newLead.professionalArea}
                   onChange={(e) => {
-                    setNewUser({
-                      ...newUser,
+                    setNewLead({
+                      ...newLead,
                       professionalArea: String(e.target.value),
                     });
                   }}
@@ -284,7 +277,7 @@ export const Register = observer(() => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
@@ -293,15 +286,20 @@ export const Register = observer(() => {
                 label="Nome"
                 name="name"
                 onChange={(e) =>
-                  setNewUser({
-                    ...newUser,
+                  setNewLead({
+                    ...newLead,
                     name: e.target.value,
                   })
                 }
               />
-            </Grid>
+            </Grid> */}
             <Grid item xs={12}>
               <TextField
+                error={emailError}
+                helperText={
+                  emailError &&
+                  "Confira se seu e-mail foi digitado corretamente!"
+                }
                 variant="outlined"
                 required
                 fullWidth
@@ -310,8 +308,8 @@ export const Register = observer(() => {
                 name="email"
                 autoComplete="email"
                 onChange={(e) =>
-                  setNewUser({
-                    ...newUser,
+                  setNewLead({
+                    ...newLead,
                     email: e.target.value,
                   })
                 }
@@ -320,10 +318,10 @@ export const Register = observer(() => {
             <Grid item xs={12}>
               <InputMask
                 mask="(99) 99999-9999"
-                value={newUser.phone}
+                value={newLead.phone}
                 onChange={(e) =>
-                  setNewUser({
-                    ...newUser,
+                  setNewLead({
+                    ...newLead,
                     phone: e.target.value,
                   })
                 }
@@ -334,8 +332,9 @@ export const Register = observer(() => {
                     required
                     fullWidth
                     id="phone"
-                    label="Celular (Opcional)"
+                    label="Celular"
                     name="phone"
+                    helperText="Para acesso ao grupo e recebimento de vagas"
                   />
                 )}
               </InputMask>
@@ -346,17 +345,16 @@ export const Register = observer(() => {
               </Grid>
             )}
 
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <TextField
-                id="outlined-password-input"
                 label="Crie uma senha"
                 type="password"
                 fullWidth
                 variant="outlined"
-                value={newUser.password}
+                value={newLead.password}
                 onChange={(e) => {
-                  setNewUser({
-                    ...newUser,
+                  setNewLead({
+                    ...newLead,
                     password: String(e.target.value),
                   });
                 }}
@@ -365,21 +363,20 @@ export const Register = observer(() => {
             </Grid>
             <Grid item xs={12}>
               <TextField
-                id="outlined-password-input"
                 label="Confirme sua nova senha"
                 type="password"
                 fullWidth
                 variant="outlined"
-                value={newUser.passwordConfirmation}
+                value={newLead.passwordConfirmation}
                 onChange={(e) => {
-                  setNewUser({
-                    ...newUser,
+                  setNewLead({
+                    ...newLead,
                     passwordConfirmation: String(e.target.value),
                   });
                 }}
                 helperText={"Sua nova senha para o site empregourgente.com"}
               />
-            </Grid>
+            </Grid> */}
             {/* <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
