@@ -41,6 +41,7 @@ export const PositionsOfInterest = ({ onChange, userType }: IProps) => {
     <Container>
       <Autocomplete
         multiple
+        autoHighlight
         id="tags-standard"
         options={positionsOfInterest}
         value={selectedPositionsOfInterest}
