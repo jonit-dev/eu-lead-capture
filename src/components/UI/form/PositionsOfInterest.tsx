@@ -4,12 +4,14 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { useStores } from '../../../store/store';
+import { UserType } from '../../../types/account.types';
 
 interface IProps {
+  userType: string;
   onChange: (values: any) => any;
 }
 
-export const PositionsOfInterest = ({ onChange }: IProps) => {
+export const PositionsOfInterest = ({ onChange, userType }: IProps) => {
   const { formStore } = useStores();
 
   const [positionsOfInterest, setPositionsOfInterest] = useState<string[]>([]);
@@ -24,6 +26,16 @@ export const PositionsOfInterest = ({ onChange }: IProps) => {
       setPositionsOfInterest(poiData);
     })();
   }, [formStore]);
+
+  const onRenderPlaceholder = () => {
+    switch (userType) {
+      case UserType.Company:
+      case UserType.RecruitmentCompany:
+        return "Para quais vagas você geralmente busca candidatos?";
+      default:
+        return "Vagas de Interesse";
+    }
+  };
 
   return (
     <Container>
@@ -42,7 +54,7 @@ export const PositionsOfInterest = ({ onChange }: IProps) => {
             variant="outlined"
             required
             fullWidth
-            label={"Vagas de Interesse"}
+            label={onRenderPlaceholder()}
             placeholder={"Digite e CLIQUE..."}
           />
         )}
@@ -53,5 +65,5 @@ export const PositionsOfInterest = ({ onChange }: IProps) => {
 
 const Container = styled.div`
   margin-top: 2rem;
-  margin-bottom: 1.2rem;
+  margin-bottom: 0.2rem;
 `;

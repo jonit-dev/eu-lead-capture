@@ -3,10 +3,14 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
 import Grid from '@material-ui/core/Grid';
 import InputLabel from '@material-ui/core/InputLabel';
 import Link from '@material-ui/core/Link';
 import MenuItem from '@material-ui/core/MenuItem';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -16,6 +20,7 @@ import Alert from '@material-ui/lab/Alert';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
 import InputMask from 'react-input-mask';
+import styled from 'styled-components';
 
 import { LocationDropdown } from '../components/UI/form/LocationDropdown';
 import { PositionsOfInterest } from '../components/UI/form/PositionsOfInterest';
@@ -24,7 +29,7 @@ import { GenericHelper } from '../helpers/GenericHelper';
 import { GroupHelper } from '../helpers/GroupHelper';
 import { ValidationHelper } from '../helpers/ValidationHelper';
 import { useStores } from '../store/store';
-import { ILead } from '../types/account.types';
+import { IUser, UserType } from '../types/account.types';
 import { NicheGroupType } from '../types/groups.types';
 
 export const Register = observer(() => {
@@ -43,41 +48,37 @@ export const Register = observer(() => {
     }
   }, [formStore, stateCodeParam, cityParam]);
 
-  const [newLead, setNewLead] = useState<ILead>({
+  const [newUser, setNewUser] = useState<IUser>({
     name: "",
     email: "",
     country: GenericHelper.getUrlQueryParamByName("country") || "Brazil",
     professionalArea: NicheGroupType.SELECIONE,
     phone: "",
-    jobRoles: [],
+    genericPositions: [],
+    type: UserType.JobSeeker,
+    password: "",
+    passwordConfirmation: "",
   });
 
   const classes = useStyles();
 
-  const renderCopyright = () => {
-    return (
-      <Typography variant="body2" color="textSecondary" align="center">
-        {"Copyright © "}
-        <Link color="inherit" href="https://material-ui.com/">
-          Emprego Urgente
-        </Link>{" "}
-        {new Date().getFullYear()}
-        {"."}
-      </Typography>
-    );
-  };
-
   const onHandleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!newUser.genericPositions.length) {
+      console.log("Por favor, selecione ao menos uma vaga de interesse!");
+    }
+
     // CLIENT-SIDE VALIDATION ========================================
 
-    const invalidFields = ValidationHelper.validateKeyValue(newLead, {
+    const invalidFields = ValidationHelper.validateKeyValue(newUser, {
       optionalFields: ["phone"],
       fieldLabels: {
         name: "Nome",
         email: "E-mail",
         country: "País",
+        password: "Senha",
+        passwordConfirmation: "Confirmação de Senha",
       },
     });
 
@@ -90,7 +91,7 @@ export const Register = observer(() => {
 
     const groupLink = GroupHelper.getGroupLink(
       formStore.selectedProvince,
-      newLead.professionalArea
+      newUser.professionalArea
     );
 
     if (!groupLink) {
@@ -100,10 +101,10 @@ export const Register = observer(() => {
       return;
     }
 
-    newLead.stateCode = formStore.selectedProvince;
-    newLead.city = formStore.selectedCity;
+    newUser.stateCode = formStore.selectedProvince;
+    newUser.city = formStore.selectedCity;
 
-    const addNewLeadStatus = await formStore.addNewLead(newLead);
+    const addNewLeadStatus = await formStore.addNewLead(newUser);
 
     console.log(addNewLeadStatus);
 
@@ -112,29 +113,103 @@ export const Register = observer(() => {
     window.open(groupLink);
   };
 
+  const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedType = (event.target as HTMLInputElement).value;
+
+    setNewUser({
+      ...newUser,
+      type: selectedType,
+    });
+  };
+
+  const onRenderAlertText = () => {
+    switch (newUser.type) {
+      case UserType.Company:
+      case UserType.RecruitmentCompany:
+        return (
+          <>
+            Selecione para quais vagas sua empresa geralmente recruta (maior
+            demanda), e iremos lhe avisar quando algum candidato compatível se
+            cadastrar!
+          </>
+        );
+      case UserType.JobSeeker:
+        return (
+          <>
+            Adicione a maior quantidade possível de vagas de seu interesse, pois{" "}
+            <strong> iremos lhe avisar por email</strong> assim que uma surgir!
+          </>
+        );
+      default:
+        return (
+          <>
+            Adicione a maior quantidade possível de vagas de seu interesse, pois{" "}
+            <strong> iremos lhe avisar por email</strong> assim que uma surgir!
+          </>
+        );
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
+      <MainContainer className={classes.paper}>
         <Logo />
 
         <Typography component="h1" variant="h5">
-          Acesse nossos Grupos de WhatsApp
+          Cadastre-se para os Grupos de WhatsApp
         </Typography>
+
+        <p>
+          Para participar dos nossos grupos de WhatsApp, realize seu{" "}
+          <strong>cadastro gratuito.</strong> Criaremos também sua conta no{" "}
+          <a
+            href="https://empregourgente.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            empregourgente.com
+          </a>
+          , para que você acesse nossas oportunidades exclusivas.
+        </p>
 
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Alert severity="info">
-                Adicione a maior quantidade possível de vagas de seu interesse,
-                pois <strong> iremos lhe avisar por email</strong> assim que uma
-                surgir!
-              </Alert>
+              <FormControl component="fieldset">
+                <FormLabel component="legend">O que procura?</FormLabel>
+                <RadioGroup
+                  aria-label="gender"
+                  name="gender1"
+                  value={newUser.type}
+                  onChange={handleTypeChange}
+                >
+                  <FormControlLabel
+                    value="JobSeeker"
+                    control={<Radio />}
+                    label="Procuro Emprego ou Serviço"
+                  />
+                  <FormControlLabel
+                    value="Company"
+                    control={<Radio />}
+                    label="Sou Empresa"
+                  />
+                  <FormControlLabel
+                    value="RecruitmentCompany"
+                    control={<Radio />}
+                    label="Sou Empresa de RH"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <Alert severity="info">{onRenderAlertText()}</Alert>
               <PositionsOfInterest
+                userType={newUser.type}
                 onChange={(poi) =>
-                  setNewLead({
-                    ...newLead,
-                    jobRoles: poi,
+                  setNewUser({
+                    ...newUser,
+                    genericPositions: poi,
                   })
                 }
               />
@@ -145,10 +220,10 @@ export const Register = observer(() => {
                 <Select
                   labelId="professionalArea"
                   id="professionalArea"
-                  value={newLead.professionalArea}
+                  value={newUser.professionalArea}
                   onChange={(e) => {
-                    setNewLead({
-                      ...newLead,
+                    setNewUser({
+                      ...newUser,
                       professionalArea: String(e.target.value),
                     });
                   }}
@@ -202,7 +277,9 @@ export const Register = observer(() => {
                     value={NicheGroupType.OUTR}
                     key={NicheGroupType.OUTR}
                   >
-                    <strong>Outra Área (Nenhuma das Anteriores)</strong>
+                    <strong>
+                      Outra Área (Nenhuma das Anteriores - Grupo Geral)
+                    </strong>
                   </MenuItem>
                 </Select>
               </FormControl>
@@ -216,8 +293,8 @@ export const Register = observer(() => {
                 label="Nome"
                 name="name"
                 onChange={(e) =>
-                  setNewLead({
-                    ...newLead,
+                  setNewUser({
+                    ...newUser,
                     name: e.target.value,
                   })
                 }
@@ -233,8 +310,8 @@ export const Register = observer(() => {
                 name="email"
                 autoComplete="email"
                 onChange={(e) =>
-                  setNewLead({
-                    ...newLead,
+                  setNewUser({
+                    ...newUser,
                     email: e.target.value,
                   })
                 }
@@ -243,10 +320,10 @@ export const Register = observer(() => {
             <Grid item xs={12}>
               <InputMask
                 mask="(99) 99999-9999"
-                value={newLead.phone}
+                value={newUser.phone}
                 onChange={(e) =>
-                  setNewLead({
-                    ...newLead,
+                  setNewUser({
+                    ...newUser,
                     phone: e.target.value,
                   })
                 }
@@ -263,10 +340,46 @@ export const Register = observer(() => {
                 )}
               </InputMask>
             </Grid>
-            <Grid item xs={12}>
-              {!stateCodeParam && <LocationDropdown />}
-            </Grid>
+            {!stateCodeParam && (
+              <Grid item xs={12}>
+                <LocationDropdown />
+              </Grid>
+            )}
 
+            <Grid item xs={12}>
+              <TextField
+                id="outlined-password-input"
+                label="Crie uma senha"
+                type="password"
+                fullWidth
+                variant="outlined"
+                value={newUser.password}
+                onChange={(e) => {
+                  setNewUser({
+                    ...newUser,
+                    password: String(e.target.value),
+                  });
+                }}
+                helperText={"Sua nova senha para o site empregourgente.com"}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                id="outlined-password-input"
+                label="Confirme sua nova senha"
+                type="password"
+                fullWidth
+                variant="outlined"
+                value={newUser.passwordConfirmation}
+                onChange={(e) => {
+                  setNewUser({
+                    ...newUser,
+                    passwordConfirmation: String(e.target.value),
+                  });
+                }}
+                helperText={"Sua nova senha para o site empregourgente.com"}
+              />
+            </Grid>
             {/* <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
@@ -294,11 +407,34 @@ export const Register = observer(() => {
             </Grid>
           </Grid> */}
         </form>
-      </div>
+      </MainContainer>
       <Box mt={5}>{renderCopyright()}</Box>
     </Container>
   );
 });
+
+const renderCopyright = () => {
+  return (
+    <CopyrightContainer>
+      <Typography variant="body2" color="textSecondary" align="center">
+        {"Copyright © "}
+        <Link color="inherit" href="https://material-ui.com/">
+          Emprego Urgente
+        </Link>{" "}
+        {new Date().getFullYear()}
+        {"."}
+      </Typography>
+    </CopyrightContainer>
+  );
+};
+
+const MainContainer = styled.div`
+  margin-top: 1rem;
+`;
+
+const CopyrightContainer = styled.div`
+  margin-bottom: 2rem;
+`;
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -310,7 +446,6 @@ const useStyles = makeStyles((theme) => ({
   formControl: {
     minWidth: 120,
     width: "100%",
-    marginBottom: "1rem",
   },
   avatar: {
     margin: theme.spacing(1),

@@ -1,7 +1,7 @@
 import { action, observable } from 'mobx';
 
 import { APIHelper } from '../helpers/APIHelper';
-import { ILead } from '../types/account.types';
+import { IUser } from '../types/account.types';
 import { ICity, IProvince } from '../types/form.types';
 
 export class FormStore {
@@ -22,7 +22,7 @@ export class FormStore {
   };
 
   @action
-  async addNewLead(newLead: ILead) {
+  async addNewLead(newLead: IUser) {
     const response = await APIHelper.request("POST", "/leads/save", newLead);
 
     return response.data;
