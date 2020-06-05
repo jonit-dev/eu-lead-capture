@@ -7,18 +7,24 @@ import { ICity, IProvince } from '../types/form.types';
 export class FormStore {
   @observable selectedCity;
   @observable selectedProvince;
+  @observable selectedPositionsOfInterest;
   @observable provinces;
   @observable cities;
   @observable positionsOfInterest;
 
   @action
-  changeCity = (newCity: string) => {
+  setCity = (newCity: string) => {
     this.selectedCity = newCity;
   };
 
   @action
-  changeProvince = (newProvince: string) => {
+  setProvince = (newProvince: string) => {
     this.selectedProvince = newProvince;
+  };
+
+  @action
+  setPositionOfInterest = (positionsOfInterest: string[]) => {
+    this.selectedPositionsOfInterest = positionsOfInterest;
   };
 
   @action

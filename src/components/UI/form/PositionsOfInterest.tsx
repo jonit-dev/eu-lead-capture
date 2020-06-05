@@ -8,10 +8,9 @@ import { UserType } from '../../../types/account.types';
 
 interface IProps {
   userType: string;
-  onChange: (values: any) => any;
 }
 
-export const PositionsOfInterest = ({ onChange, userType }: IProps) => {
+export const PositionsOfInterest = ({ userType }: IProps) => {
   const { formStore } = useStores();
 
   const [positionsOfInterest, setPositionsOfInterest] = useState<string[]>([]);
@@ -47,7 +46,7 @@ export const PositionsOfInterest = ({ onChange, userType }: IProps) => {
         value={selectedPositionsOfInterest}
         onChange={(event, values) => {
           setSelectedPositionsOfInterest(values);
-          onChange(values);
+          formStore.setPositionOfInterest(values);
         }}
         renderInput={(params) => (
           <TextField

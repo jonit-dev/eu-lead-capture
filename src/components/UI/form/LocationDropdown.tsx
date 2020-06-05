@@ -25,8 +25,8 @@ export const LocationDropdown = observer(() => {
   // update store whenever province or city changes
 
   useEffect(() => {
-    formStore.changeCity(locationCity);
-    formStore.changeProvince(locationProvince);
+    formStore.setCity(locationCity);
+    formStore.setProvince(locationProvince);
   }, [locationProvince, locationCity, formStore]);
 
   // Load provinces on component start!

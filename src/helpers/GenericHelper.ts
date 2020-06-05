@@ -8,4 +8,20 @@ export class GenericHelper {
     if (!results[2]) return "";
     return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
+
+  public static windowOpen(url: string) {
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+    if (isSafari) {
+      // Safari doesn't like window.open, so lets use this alternative method.
+      // Reference: https://stackoverflow.com/questions/20696041/window-openurl-blank-not-working-on-imac-safari
+      window.location.assign(url);
+      return;
+    }
+
+    // for all other *decent* browsers, lets use window.open
+    window.open(url);
+
+    return;
+  }
 }

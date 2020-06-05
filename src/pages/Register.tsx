@@ -41,11 +41,11 @@ export const Register = observer(() => {
 
   useEffect(() => {
     if (stateCodeParam) {
-      formStore.changeProvince(stateCodeParam);
+      formStore.setProvince(stateCodeParam);
     }
 
     if (cityParam) {
-      formStore.changeCity(cityParam);
+      formStore.setCity(cityParam);
     }
   }, [formStore, stateCodeParam, cityParam]);
 
@@ -66,6 +66,8 @@ export const Register = observer(() => {
 
   const onHandleSubmit = async (e) => {
     e.preventDefault();
+
+    newLead.jobRoles = formStore.selectedPositionsOfInterest;
 
     if (!newLead.jobRoles.length) {
       alert("Por favor, selecione ao menos uma vaga/posição de interesse!");
@@ -116,7 +118,7 @@ export const Register = observer(() => {
 
     console.log(`Redirecting user to: ${groupLink}`);
 
-    window.open(groupLink);
+    GenericHelper.windowOpen(groupLink);
   };
 
   const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -197,15 +199,7 @@ export const Register = observer(() => {
             </Grid>
             <Grid item xs={12}>
               <Alert severity="info">{onRenderAlertText()}</Alert>
-              <PositionsOfInterest
-                userType={newLead.type}
-                onChange={(poi) =>
-                  setNewLead({
-                    ...newLead,
-                    jobRoles: poi,
-                  })
-                }
-              />
+              <PositionsOfInterest userType={newLead.type} />
             </Grid>
             <Grid item xs={12}>
               <FormControl variant="outlined" className={classes.formControl}>
