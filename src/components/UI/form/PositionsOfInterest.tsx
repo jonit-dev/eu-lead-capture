@@ -31,7 +31,7 @@ export const PositionsOfInterest = ({ onChange, userType }: IProps) => {
     switch (userType) {
       case UserType.Company:
       case UserType.RecruitmentCompany:
-        return "Para quais vagas você geralmente busca candidatos?";
+        return "Candidatos para quais vagas?";
       default:
         return "Vagas de Interesse";
     }
