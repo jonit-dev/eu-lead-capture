@@ -57,7 +57,7 @@ export const Register = observer(() => {
       NicheGroupType.SELECIONE,
     jobRoles: [],
     type: UserType.JobSeeker,
-    phone: "",
+    phone: GenericHelper.getUrlQueryParamByName("phone") || "",
   });
 
   const [emailError, setEmailError] = useState<boolean>(false);
