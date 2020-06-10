@@ -17,7 +17,6 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import Alert from '@material-ui/lab/Alert';
-import * as EmailValidator from 'email-validator';
 import { observer } from 'mobx-react';
 import React, { useEffect, useState } from 'react';
 import InputMask from 'react-input-mask';
@@ -60,8 +59,6 @@ export const Register = observer(() => {
     phone: GenericHelper.getUrlQueryParamByName("phone") || "",
   });
 
-  const [emailError, setEmailError] = useState<boolean>(false);
-
   const classes = useStyles();
 
   const onHandleSubmit = async (e) => {
@@ -87,13 +84,6 @@ export const Register = observer(() => {
       alert(
         `Os seguintes campos estão inválidos: ${invalidFields}. Por favor, retorne e corrija antes de prosseguir.`
       );
-      return;
-    }
-
-    // check for email validation
-
-    if (!EmailValidator.validate(newLead.email)) {
-      setEmailError(true);
       return;
     }
 
@@ -289,11 +279,6 @@ export const Register = observer(() => {
             </Grid> */}
             <Grid item xs={12}>
               <TextField
-                error={emailError}
-                helperText={
-                  emailError &&
-                  "Confira se seu e-mail foi digitado corretamente!"
-                }
                 variant="outlined"
                 required
                 fullWidth
