@@ -93,7 +93,7 @@ export const Register = observer(() => {
     );
 
     if (!groupLink) {
-      console.log(
+      alert(
         `Nenhum grupo disponivel para o estado de ${formStore.selectedProvince}. Tente novamente em outro estado.`
       );
       return;
