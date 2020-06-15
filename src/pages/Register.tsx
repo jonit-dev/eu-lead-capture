@@ -37,6 +37,7 @@ export const Register = observer(() => {
 
   const stateCodeParam = GenericHelper.getUrlQueryParamByName("stateCode");
   const cityParam = GenericHelper.getUrlQueryParamByName("city");
+  const userTypeParam = GenericHelper.getUrlQueryParamByName("userType");
 
   useEffect(() => {
     if (stateCodeParam) {
@@ -55,7 +56,7 @@ export const Register = observer(() => {
       GenericHelper.getUrlQueryParamByName("professionalArea") ||
       NicheGroupType.SELECIONE,
     jobRoles: [],
-    type: UserType.JobSeeker,
+    type: userTypeParam || UserType.JobSeeker,
     phone: GenericHelper.getUrlQueryParamByName("phone") || "",
   });
 
@@ -160,33 +161,35 @@ export const Register = observer(() => {
 
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <FormControl component="fieldset">
-                <FormLabel component="legend">O que procura?</FormLabel>
-                <RadioGroup
-                  aria-label="gender"
-                  name="gender1"
-                  value={newLead.type}
-                  onChange={handleTypeChange}
-                >
-                  <FormControlLabel
-                    value="JobSeeker"
-                    control={<Radio />}
-                    label="Procuro Emprego ou Serviço"
-                  />
-                  <FormControlLabel
-                    value="Company"
-                    control={<Radio />}
-                    label="Sou Empresa"
-                  />
-                  <FormControlLabel
-                    value="RecruitmentCompany"
-                    control={<Radio />}
-                    label="Sou Empresa de RH"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Grid>
+            {!userTypeParam && (
+              <Grid item xs={12}>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">O que procura?</FormLabel>
+                  <RadioGroup
+                    aria-label="gender"
+                    name="gender1"
+                    value={newLead.type}
+                    onChange={handleTypeChange}
+                  >
+                    <FormControlLabel
+                      value="JobSeeker"
+                      control={<Radio />}
+                      label="Procuro Emprego ou Serviço"
+                    />
+                    <FormControlLabel
+                      value="Company"
+                      control={<Radio />}
+                      label="Sou Empresa"
+                    />
+                    <FormControlLabel
+                      value="RecruitmentCompany"
+                      control={<Radio />}
+                      label="Sou Empresa de RH"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+            )}
             <Grid item xs={12}>
               <Alert severity="info">{onRenderAlertText()}</Alert>
               <PositionsOfInterest userType={newLead.type} />
