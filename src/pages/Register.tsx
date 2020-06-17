@@ -15,6 +15,7 @@ import Select from '@material-ui/core/Select';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import TelegramIcon from '@material-ui/icons/Telegram';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 import Alert from '@material-ui/lab/Alert';
 import { observer } from 'mobx-react';
@@ -39,6 +40,7 @@ export const Register = observer(() => {
   const cityParam = GenericHelper.getUrlQueryParamByName("city");
   const userTypeParam = GenericHelper.getUrlQueryParamByName("userType");
   const platformParam = GenericHelper.getUrlQueryParamByName("platform");
+  const hasPhone = GenericHelper.getUrlQueryParamByName("hasPhone");
 
   useEffect(() => {
     if (stateCodeParam) {
@@ -176,6 +178,33 @@ export const Register = observer(() => {
           <Grid container spacing={2}>
             {!platformParam && (
               <Grid item xs={12}>
+                {newLead.platform === PlatformType.WhatsApp && (
+                  <AlertContainer>
+                    <Alert severity="warning">
+                      Por favor, entre preferencialmente em nosso grupo no{" "}
+                      <strong>Telegram</strong>, pois{" "}
+                      <strong>priorizamos vagas</strong> e{" "}
+                      <strong>promoções exclusivas</strong> para membros deste
+                      app. Não tem em seu celular?{" "}
+                      <a
+                        rel="noopener noreferrer"
+                        href={GenericHelper.getTelegramUrl()}
+                        target="_blank"
+                      >
+                        Clique aqui para baixar
+                      </a>
+                    </Alert>
+                  </AlertContainer>
+                )}
+                {newLead.platform === PlatformType.Telegram && (
+                  <AlertContainer>
+                    <Alert severity="success">
+                      Obrigado por entrar em nosso grupo do Telegram! Agora você
+                      participará de <strong>promoções</strong> e{" "}
+                      <strong>vagas exclusivas</strong>!
+                    </Alert>
+                  </AlertContainer>
+                )}
                 <FormControl component="fieldset">
                   <FormLabel component="legend">Tipo de Grupo:</FormLabel>
                   <RadioGroup
@@ -336,30 +365,32 @@ export const Register = observer(() => {
                 }
               />
             </Grid>
-            <Grid item xs={12}>
-              <InputMask
-                mask="(99) 99999-9999"
-                value={newLead.phone}
-                onChange={(e) =>
-                  setNewLead({
-                    ...newLead,
-                    phone: e.target.value,
-                  })
-                }
-              >
-                {() => (
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="phone"
-                    label="Celular"
-                    name="phone"
-                    helperText="Para acesso ao grupo e recebimento de vagas"
-                  />
-                )}
-              </InputMask>
-            </Grid>
+            {hasPhone && (
+              <Grid item xs={12}>
+                <InputMask
+                  mask="(99) 99999-9999"
+                  value={newLead.phone}
+                  onChange={(e) =>
+                    setNewLead({
+                      ...newLead,
+                      phone: e.target.value,
+                    })
+                  }
+                >
+                  {() => (
+                    <TextField
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="phone"
+                      label="Celular"
+                      name="phone"
+                      helperText="Para acesso ao grupo e recebimento de vagas"
+                    />
+                  )}
+                </InputMask>
+              </Grid>
+            )}
             {!stateCodeParam && (
               <Grid item xs={12}>
                 <LocationDropdown />
@@ -411,7 +442,13 @@ export const Register = observer(() => {
             variant="contained"
             color="primary"
             className={classes.submit}
-            startIcon={<WhatsAppIcon />}
+            startIcon={
+              newLead.platform === PlatformType.WhatsApp ? (
+                <WhatsAppIcon />
+              ) : (
+                <TelegramIcon />
+              )
+            }
             onClick={onHandleSubmit}
             size="large"
           >
@@ -445,6 +482,9 @@ const renderCopyright = () => {
     </CopyrightContainer>
   );
 };
+const AlertContainer = styled.div`
+  margin-bottom: 1rem;
+`;
 
 const MainContainer = styled.div`
   margin-top: 1rem;

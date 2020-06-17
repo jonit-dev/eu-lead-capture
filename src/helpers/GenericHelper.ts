@@ -24,4 +24,14 @@ export class GenericHelper {
 
     return;
   }
+
+  public static getTelegramUrl() {
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+    if (isSafari) {
+      return "https://apps.apple.com/us/app/telegram-messenger/id686449807";
+    }
+
+    return "https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=en_CA";
+  }
 }
