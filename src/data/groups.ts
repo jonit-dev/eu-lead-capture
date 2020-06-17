@@ -6,7 +6,7 @@ export const telegramGroups: IGroup[] = [
     mainGroups: [
       {
         name: "EmpregoUrgente.com - ES",
-        url: "https://t.me/empregourgenteES",
+        url: "https://t.me/empregourgenteESc",
         status: true,
       },
     ],
@@ -17,7 +17,7 @@ export const telegramGroups: IGroup[] = [
     mainGroups: [
       {
         name: "EmpregoUrgente.com - SP",
-        url: "https://t.me/empregourgenteSP",
+        url: "https://t.me/empregourgenteSPc",
         status: true,
       },
     ],
@@ -28,7 +28,7 @@ export const telegramGroups: IGroup[] = [
     mainGroups: [
       {
         name: "EmpregoUrgente.com - MG",
-        url: "https://t.me/empregourgenteMG",
+        url: "https://t.me/empregourgenteMGc",
         status: true,
       },
     ],
@@ -39,7 +39,7 @@ export const telegramGroups: IGroup[] = [
     mainGroups: [
       {
         name: "EmpregoUrgente.com - RJ",
-        url: "https://t.me/empregourgenteRJ",
+        url: "https://t.me/empregourgenteRJc",
         status: true,
       },
     ],
