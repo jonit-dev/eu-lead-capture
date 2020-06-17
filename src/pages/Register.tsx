@@ -29,7 +29,7 @@ import { GenericHelper } from '../helpers/GenericHelper';
 import { GroupHelper } from '../helpers/GroupHelper';
 import { ValidationHelper } from '../helpers/ValidationHelper';
 import { useStores } from '../store/store';
-import { ILead, UserType } from '../types/account.types';
+import { ILead, PlatformType, UserType } from '../types/account.types';
 import { NicheGroupType } from '../types/groups.types';
 
 export const Register = observer(() => {
@@ -38,6 +38,7 @@ export const Register = observer(() => {
   const stateCodeParam = GenericHelper.getUrlQueryParamByName("stateCode");
   const cityParam = GenericHelper.getUrlQueryParamByName("city");
   const userTypeParam = GenericHelper.getUrlQueryParamByName("userType");
+  const platformParam = GenericHelper.getUrlQueryParamByName("platform");
 
   useEffect(() => {
     if (stateCodeParam) {
@@ -58,6 +59,7 @@ export const Register = observer(() => {
     jobRoles: [],
     type: userTypeParam || UserType.JobSeeker,
     phone: GenericHelper.getUrlQueryParamByName("phone") || "",
+    platform: platformParam || PlatformType.WhatsApp,
   });
 
   const classes = useStyles();
@@ -88,7 +90,10 @@ export const Register = observer(() => {
       return;
     }
 
+    console.log(newLead);
+
     const groupLink = GroupHelper.getGroupLink(
+      newLead.platform,
       formStore.selectedProvince,
       newLead.professionalArea
     );
@@ -118,6 +123,14 @@ export const Register = observer(() => {
     setNewLead({
       ...newLead,
       type: selectedType,
+    });
+  };
+
+  const handlePlatformChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedPlatform = (event.target as HTMLInputElement).value;
+    setNewLead({
+      ...newLead,
+      platform: selectedPlatform,
     });
   };
 
@@ -156,18 +169,44 @@ export const Register = observer(() => {
         <Logo />
 
         <Typography component="h1" variant="h5">
-          Cadastre-se para os Grupos de WhatsApp
+          Cadastre-se para os Grupos de WhatsApp/Telegram
         </Typography>
 
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
+            {!platformParam && (
+              <Grid item xs={12}>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Tipo de Grupo:</FormLabel>
+                  <RadioGroup
+                    row
+                    aria-label="platform"
+                    name="platform"
+                    value={newLead.platform}
+                    onChange={handlePlatformChange}
+                  >
+                    <FormControlLabel
+                      value={PlatformType.WhatsApp}
+                      control={<Radio />}
+                      label="WhatsApp"
+                    />
+                    <FormControlLabel
+                      value={PlatformType.Telegram}
+                      control={<Radio />}
+                      label="Telegram"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+            )}
+
             {!userTypeParam && (
               <Grid item xs={12}>
                 <FormControl component="fieldset">
                   <FormLabel component="legend">O que procura?</FormLabel>
                   <RadioGroup
-                    aria-label="gender"
-                    name="gender1"
+                    aria-label="jobType"
+                    name="jobType"
                     value={newLead.type}
                     onChange={handleTypeChange}
                   >

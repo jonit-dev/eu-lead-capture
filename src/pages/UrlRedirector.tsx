@@ -3,13 +3,16 @@ import styled from 'styled-components';
 
 import { GenericHelper } from '../helpers/GenericHelper';
 import { GroupHelper } from '../helpers/GroupHelper';
+import { PlatformType } from '../types/account.types';
 import { NicheGroupType } from '../types/groups.types';
 
 export const UrlRedirector = () => {
   useEffect(() => {
     const stateCodeParam = GenericHelper.getUrlQueryParamByName("stateCode");
-
+    const platformParam =
+      GenericHelper.getUrlQueryParamByName("platform") || PlatformType.WhatsApp;
     const groupLink = GroupHelper.getGroupLink(
+      platformParam,
       stateCodeParam!,
       NicheGroupType.OUTR
     );

@@ -1,6 +1,53 @@
-import { AvailableStates, IGroup, NicheGroupType } from "../types/groups.types";
+import { AvailableStates, IGroup, NicheGroupType } from '../types/groups.types';
 
-export const groups: IGroup[] = [
+export const telegramGroups: IGroup[] = [
+  {
+    stateCode: AvailableStates.ES,
+    mainGroups: [
+      {
+        name: "EmpregoUrgente.com - ES",
+        url: "https://t.me/empregourgenteES",
+        status: true,
+      },
+    ],
+    nicheGroups: [],
+  },
+  {
+    stateCode: AvailableStates.SP,
+    mainGroups: [
+      {
+        name: "EmpregoUrgente.com - SP",
+        url: "https://t.me/empregourgenteSP",
+        status: true,
+      },
+    ],
+    nicheGroups: [],
+  },
+  {
+    stateCode: AvailableStates.MG,
+    mainGroups: [
+      {
+        name: "EmpregoUrgente.com - MG",
+        url: "https://t.me/empregourgenteMG",
+        status: true,
+      },
+    ],
+    nicheGroups: [],
+  },
+  {
+    stateCode: AvailableStates.RJ,
+    mainGroups: [
+      {
+        name: "EmpregoUrgente.com - RJ",
+        url: "https://t.me/empregourgenteRJ",
+        status: true,
+      },
+    ],
+    nicheGroups: [],
+  },
+];
+
+export const whatsappGroups: IGroup[] = [
   {
     stateCode: AvailableStates.ES,
     mainGroups: [
