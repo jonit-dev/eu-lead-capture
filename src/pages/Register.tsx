@@ -262,76 +262,78 @@ export const Register = observer(() => {
               <Alert severity="info">{onRenderAlertText()}</Alert>
               <PositionsOfInterest userType={newLead.type} />
             </Grid>
-            <Grid item xs={12}>
-              <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel>Sua Área Profissional</InputLabel>
-                <Select
-                  labelId="professionalArea"
-                  id="professionalArea"
-                  value={newLead.professionalArea}
-                  onChange={(e) => {
-                    setNewLead({
-                      ...newLead,
-                      professionalArea: String(e.target.value),
-                    });
-                  }}
-                  label="Sua Área Profissional"
-                  fullWidth
-                >
-                  <MenuItem
-                    value={NicheGroupType.SELECIONE}
-                    key={NicheGroupType.SELECIONE}
+            {newLead.platform === PlatformType.WhatsApp && (
+              <Grid item xs={12}>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel>Sua Área Profissional</InputLabel>
+                  <Select
+                    labelId="professionalArea"
+                    id="professionalArea"
+                    value={newLead.professionalArea}
+                    onChange={(e) => {
+                      setNewLead({
+                        ...newLead,
+                        professionalArea: String(e.target.value),
+                      });
+                    }}
+                    label="Sua Área Profissional"
+                    fullWidth
                   >
-                    Selecione a sua Área...
-                  </MenuItem>
+                    <MenuItem
+                      value={NicheGroupType.SELECIONE}
+                      key={NicheGroupType.SELECIONE}
+                    >
+                      Selecione a sua Área...
+                    </MenuItem>
 
-                  <MenuItem
-                    value={NicheGroupType.ADMIN}
-                    key={NicheGroupType.ADMIN}
-                  >
-                    Administração & Atendimento
-                  </MenuItem>
-                  <MenuItem
-                    value={NicheGroupType.ESTET}
-                    key={NicheGroupType.ESTET}
-                  >
-                    Beleza & Estética
-                  </MenuItem>
-                  <MenuItem
-                    value={NicheGroupType.CONSTRUC}
-                    key={NicheGroupType.CONSTRUC}
-                  >
-                    Construção, Indústria & Logística
-                  </MenuItem>
-                  <MenuItem
-                    value={NicheGroupType.SAUDE}
-                    key={NicheGroupType.SAUDE}
-                  >
-                    Limpeza, Saúde & Cuidados
-                  </MenuItem>
-                  <MenuItem
-                    value={NicheGroupType.SEGUR}
-                    key={NicheGroupType.SEGUR}
-                  >
-                    Segurança & Patrimônio
-                  </MenuItem>
-                  <MenuItem
-                    value={NicheGroupType.VEND}
-                    key={NicheGroupType.VEND}
-                  >
-                    Vendas & Comércio
-                  </MenuItem>
-                  <MenuItem
-                    value={NicheGroupType.OUTR}
-                    key={NicheGroupType.OUTR}
-                  >
-                    <strong>
-                      Outra Área (Nenhuma das Anteriores - Grupo Geral)
-                    </strong>
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
+                    <MenuItem
+                      value={NicheGroupType.ADMIN}
+                      key={NicheGroupType.ADMIN}
+                    >
+                      Administração & Atendimento
+                    </MenuItem>
+                    <MenuItem
+                      value={NicheGroupType.ESTET}
+                      key={NicheGroupType.ESTET}
+                    >
+                      Beleza & Estética
+                    </MenuItem>
+                    <MenuItem
+                      value={NicheGroupType.CONSTRUC}
+                      key={NicheGroupType.CONSTRUC}
+                    >
+                      Construção, Indústria & Logística
+                    </MenuItem>
+                    <MenuItem
+                      value={NicheGroupType.SAUDE}
+                      key={NicheGroupType.SAUDE}
+                    >
+                      Limpeza, Saúde & Cuidados
+                    </MenuItem>
+                    <MenuItem
+                      value={NicheGroupType.SEGUR}
+                      key={NicheGroupType.SEGUR}
+                    >
+                      Segurança & Patrimônio
+                    </MenuItem>
+                    <MenuItem
+                      value={NicheGroupType.VEND}
+                      key={NicheGroupType.VEND}
+                    >
+                      Vendas & Comércio
+                    </MenuItem>
+                    <MenuItem
+                      value={NicheGroupType.OUTR}
+                      key={NicheGroupType.OUTR}
+                    >
+                      <strong>
+                        Outra Área (Nenhuma das Anteriores - Grupo Geral)
+                      </strong>
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+            )}
             {/* <Grid item xs={12}>
               <TextField
                 variant="outlined"
