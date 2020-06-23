@@ -135,7 +135,7 @@ export const whatsappGroups: IGroup[] = [
       {
         name: "Emprego Urgente SP - #3",
         url: "https://chat.whatsapp.com/I5wVYy32fKDDKSZldDRa3U",
-        status: true,
+        status: false,
       },
       // ! TEMP CLOSED
       {
