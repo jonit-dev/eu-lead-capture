@@ -137,10 +137,11 @@ export const whatsappGroups: IGroup[] = [
         url: "https://chat.whatsapp.com/I5wVYy32fKDDKSZldDRa3U",
         status: true,
       },
+      // ! TEMP CLOSED
       {
         name: "Emprego Urgente SP - #4",
         url: "https://chat.whatsapp.com/GnN84IIcvd15rJs09ukqP7",
-        status: true,
+        status: false,
       },
       {
         name: "Emprego Urgente SP - #5",
