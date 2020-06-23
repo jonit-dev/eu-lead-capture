@@ -119,15 +119,18 @@ export const whatsappGroups: IGroup[] = [
   {
     stateCode: AvailableStates.SP,
     mainGroups: [
+      // ! TEMP CLOSED
       {
         name: "Emprego Urgente SP - #1",
         url: "https://chat.whatsapp.com/DITRy3cquo38EBkdacf8DS",
-        status: true,
+        status: false,
       },
+
+      // ! TEMP CLOSED
       {
         name: "Emprego Urgente SP - #2",
         url: "https://chat.whatsapp.com/IpyZFwgaiDBAnGDTMLmV4i",
-        status: true,
+        status: false,
       },
       {
         name: "Emprego Urgente SP - #3",
@@ -137,6 +140,11 @@ export const whatsappGroups: IGroup[] = [
       {
         name: "Emprego Urgente SP - #4",
         url: "https://chat.whatsapp.com/GnN84IIcvd15rJs09ukqP7",
+        status: true,
+      },
+      {
+        name: "Emprego Urgente SP - #5",
+        url: "https://chat.whatsapp.com/FGvtUkCrwc6JVeTzxrHPVt",
         status: true,
       },
     ],
