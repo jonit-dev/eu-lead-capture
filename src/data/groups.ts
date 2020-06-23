@@ -148,7 +148,7 @@ export const whatsappGroups: IGroup[] = [
     ],
     nicheGroups: [
       {
-        name: "Vagas Adm &  Atend ES 1",
+        name: "Vagas Adm &  Atend SP 1",
         url: "https://chat.whatsapp.com/FxNAnH2eRWb5ZD8goni1wp",
         status: true,
         nicheGroupKey: NicheGroupType.ADMIN,
