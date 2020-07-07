@@ -10,7 +10,7 @@ function App() {
 
   useEffect(() => {
     const computeUserClick = GenericHelper.getUrlQueryParamByName("promoterId");
-    const payerId = GenericHelper.getUrlQueryParamByName("payerId");
+    const payerId = GenericHelper.getUrlQueryParamByName("payerId") || 0;
 
     if (computeUserClick) {
       console.log("Computando click para promoter id ");
