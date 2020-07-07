@@ -9,13 +9,15 @@ function App() {
   // check for some params
 
   useEffect(() => {
-    const computeUserClick = GenericHelper.getUrlQueryParamByName("pid");
+    const computeUserClick = GenericHelper.getUrlQueryParamByName("promoterId");
+    const payerId = GenericHelper.getUrlQueryParamByName("payerId");
 
     if (computeUserClick) {
       console.log("Computando click para promoter id ");
 
-      APIHelper.request("POST", "/users/validate-post-click", {
+      APIHelper.request("POST", "/credit", {
         promoterId: computeUserClick,
+        payerId,
       });
     }
   }, []);
