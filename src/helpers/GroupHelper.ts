@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { telegramGroups, whatsappGroups } from '../data/groups';
+import { EUTelegramGroups, EUWhatsappGroups } from '../data/groups';
 import { PlatformType } from '../types/account.types';
 import { AvailableStates, IGroup, NicheGroupType } from '../types/groups.types';
 
@@ -57,11 +57,27 @@ export class GroupHelper {
   };
 
   public static getGroupLink(
+    payerId: string | null,
     platform: PlatformType | string,
     stateCode: string,
     professionalArea: NicheGroupType | string
   ): string | false {
     let link = "";
+
+    let telegramGroups: IGroup[] = [];
+    let whatsappGroups: IGroup[] = [];
+
+    if (!payerId) {
+      telegramGroups = EUTelegramGroups;
+      whatsappGroups = EUWhatsappGroups;
+    }
+
+    switch (payerId) {
+      case "0": // Emprego Urgente
+        telegramGroups = EUTelegramGroups;
+        whatsappGroups = EUWhatsappGroups;
+        break;
+    }
 
     switch (platform) {
       case PlatformType.Telegram:

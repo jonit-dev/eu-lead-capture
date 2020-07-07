@@ -9,9 +9,11 @@ import { NicheGroupType } from '../types/groups.types';
 export const UrlRedirector = () => {
   useEffect(() => {
     const stateCodeParam = GenericHelper.getUrlQueryParamByName("stateCode");
+    const payerId = GenericHelper.getUrlQueryParamByName("payerId");
     const platformParam =
       GenericHelper.getUrlQueryParamByName("platform") || PlatformType.WhatsApp;
     const groupLink = GroupHelper.getGroupLink(
+      payerId,
       platformParam,
       stateCodeParam!,
       NicheGroupType.OUTR

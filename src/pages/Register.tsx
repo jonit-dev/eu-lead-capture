@@ -41,6 +41,7 @@ export const Register = observer(() => {
   const userTypeParam = GenericHelper.getUrlQueryParamByName("userType");
   const platformParam = GenericHelper.getUrlQueryParamByName("platform");
   const hasPhone = GenericHelper.getUrlQueryParamByName("hasPhone");
+  const payerId = GenericHelper.getUrlQueryParamByName("payerId");
 
   useEffect(() => {
     if (stateCodeParam) {
@@ -95,6 +96,7 @@ export const Register = observer(() => {
     console.log(newLead);
 
     const groupLink = GroupHelper.getGroupLink(
+      payerId,
       newLead.platform,
       formStore.selectedProvince,
       newLead.professionalArea

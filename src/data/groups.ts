@@ -1,6 +1,6 @@
 import { AvailableStates, IGroup, NicheGroupType } from '../types/groups.types';
 
-export const telegramGroups: IGroup[] = [
+export const EUTelegramGroups: IGroup[] = [
   {
     stateCode: AvailableStates.ES,
     mainGroups: [
@@ -47,7 +47,7 @@ export const telegramGroups: IGroup[] = [
   },
 ];
 
-export const whatsappGroups: IGroup[] = [
+export const EUWhatsappGroups: IGroup[] = [
   {
     stateCode: AvailableStates.ES,
     mainGroups: [
