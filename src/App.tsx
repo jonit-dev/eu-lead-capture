@@ -9,17 +9,21 @@ function App() {
   // check for some params
 
   useEffect(() => {
-    const computeUserClick = GenericHelper.getUrlQueryParamByName("promoterId");
-    const payerId = GenericHelper.getUrlQueryParamByName("payerId");
+    (async () => {
+      const computeUserClick = GenericHelper.getUrlQueryParamByName(
+        "promoterId"
+      );
+      const payerId = GenericHelper.getUrlQueryParamByName("payerId");
 
-    if (computeUserClick) {
-      console.log("Computando click para promoter id ");
+      if (computeUserClick) {
+        console.log("Computando click para promoter id ");
 
-      APIHelper.request("POST", "/credit", {
-        promoterId: computeUserClick,
-        payerId,
-      });
-    }
+        await APIHelper.request("POST", "/credit", {
+          promoterId: computeUserClick,
+          payerId,
+        });
+      }
+    })();
   }, []);
 
   const isRedirectOnly = GenericHelper.getUrlQueryParamByName("ro");
