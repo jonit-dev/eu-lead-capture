@@ -71,9 +71,6 @@ export class GroupHelper {
     const whatsAppGroups: IGroup[] =
       WhatsAppGroups.filter((group) => group.payerId === payerId) || [];
 
-    console.log(telegramGroups);
-    console.log(whatsAppGroups);
-
     switch (platform) {
       case PlatformType.Telegram:
         const telegramStateGroup = GroupHelper._findGroupByState(
