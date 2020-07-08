@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { EUTelegramGroups, EUWhatsappGroups } from '../data/groups';
+import { TelegramGroups, WhatsAppGroups } from '../data/groups';
 import { PlatformType } from '../types/account.types';
 import { AvailableStates, IGroup, NicheGroupType } from '../types/groups.types';
 
@@ -57,27 +57,22 @@ export class GroupHelper {
   };
 
   public static getGroupLink(
-    payerId: string | null,
+    payerId: number,
     platform: PlatformType | string,
     stateCode: string,
     professionalArea: NicheGroupType | string
   ): string | false {
     let link = "";
 
-    let telegramGroups: IGroup[] = [];
-    let whatsappGroups: IGroup[] = [];
+    // fetch groups according to payer id
 
-    if (!payerId) {
-      telegramGroups = EUTelegramGroups;
-      whatsappGroups = EUWhatsappGroups;
-    }
+    const telegramGroups: IGroup[] =
+      TelegramGroups.filter((group) => group.payerId === payerId) || [];
+    const whatsAppGroups: IGroup[] =
+      WhatsAppGroups.filter((group) => group.payerId === payerId) || [];
 
-    switch (payerId) {
-      case "0": // Emprego Urgente
-        telegramGroups = EUTelegramGroups;
-        whatsappGroups = EUWhatsappGroups;
-        break;
-    }
+    console.log(telegramGroups);
+    console.log(whatsAppGroups);
 
     switch (platform) {
       case PlatformType.Telegram:
@@ -100,7 +95,7 @@ export class GroupHelper {
       case PlatformType.WhatsApp:
       default:
         const whatsAppStateGroup = GroupHelper._findGroupByState(
-          whatsappGroups,
+          whatsAppGroups,
           stateCode
         );
 

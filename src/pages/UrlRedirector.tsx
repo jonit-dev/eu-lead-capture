@@ -13,7 +13,7 @@ export const UrlRedirector = () => {
     const platformParam =
       GenericHelper.getUrlQueryParamByName("platform") || PlatformType.WhatsApp;
     const groupLink = GroupHelper.getGroupLink(
-      payerId,
+      Number(payerId),
       platformParam,
       stateCodeParam!,
       NicheGroupType.OUTR

@@ -1,7 +1,20 @@
 import { AvailableStates, IGroup, NicheGroupType } from '../types/groups.types';
 
-export const EUTelegramGroups: IGroup[] = [
+export const TelegramGroups: IGroup[] = [
   {
+    payerId: 1,
+    stateCode: AvailableStates.SP,
+    mainGroups: [
+      {
+        name: "Seu Jobs SP",
+        url: "https://t.me/empregosaopaulo",
+        status: true,
+      },
+    ],
+    nicheGroups: [],
+  },
+  {
+    payerId: 0,
     stateCode: AvailableStates.ES,
     mainGroups: [
       {
@@ -13,6 +26,7 @@ export const EUTelegramGroups: IGroup[] = [
     nicheGroups: [],
   },
   {
+    payerId: 0,
     stateCode: AvailableStates.SP,
     mainGroups: [
       {
@@ -24,6 +38,7 @@ export const EUTelegramGroups: IGroup[] = [
     nicheGroups: [],
   },
   {
+    payerId: 0,
     stateCode: AvailableStates.MG,
     mainGroups: [
       {
@@ -35,6 +50,7 @@ export const EUTelegramGroups: IGroup[] = [
     nicheGroups: [],
   },
   {
+    payerId: 0,
     stateCode: AvailableStates.RJ,
     mainGroups: [
       {
@@ -47,8 +63,21 @@ export const EUTelegramGroups: IGroup[] = [
   },
 ];
 
-export const EUWhatsappGroups: IGroup[] = [
+export const WhatsAppGroups: IGroup[] = [
   {
+    payerId: 1, // ! SeuJobs
+    stateCode: AvailableStates.SP,
+    mainGroups: [
+      {
+        name: "Vagas SP",
+        url: "https://chat.whatsapp.com/ChazGTU7tIDAyRYL2WRXoz",
+        status: true,
+      },
+    ],
+    nicheGroups: [],
+  },
+  {
+    payerId: 0,
     stateCode: AvailableStates.ES,
     mainGroups: [
       {
@@ -133,6 +162,7 @@ export const EUWhatsappGroups: IGroup[] = [
     ],
   },
   {
+    payerId: 0,
     stateCode: AvailableStates.SP,
     mainGroups: [
       {
@@ -212,6 +242,7 @@ export const EUWhatsappGroups: IGroup[] = [
     ],
   },
   {
+    payerId: 0,
     stateCode: AvailableStates.MG,
     mainGroups: [
       {
@@ -280,6 +311,7 @@ export const EUWhatsappGroups: IGroup[] = [
     ],
   },
   {
+    payerId: 0,
     stateCode: AvailableStates.RJ,
     mainGroups: [
       {

@@ -25,7 +25,6 @@ import styled from 'styled-components';
 
 import { LocationDropdown } from '../components/UI/form/LocationDropdown';
 import { PositionsOfInterest } from '../components/UI/form/PositionsOfInterest';
-import { Logo } from '../components/UI/Logo';
 import { GenericHelper } from '../helpers/GenericHelper';
 import { GroupHelper } from '../helpers/GroupHelper';
 import { ValidationHelper } from '../helpers/ValidationHelper';
@@ -96,11 +95,13 @@ export const Register = observer(() => {
     console.log(newLead);
 
     const groupLink = GroupHelper.getGroupLink(
-      payerId,
+      Number(payerId),
       newLead.platform,
       formStore.selectedProvince,
       newLead.professionalArea
     );
+
+    console.log(groupLink);
 
     if (!groupLink) {
       alert(
@@ -170,8 +171,6 @@ export const Register = observer(() => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <MainContainer className={classes.paper}>
-        <Logo />
-
         <Typography component="h1" variant="h5">
           Cadastre-se para os Grupos de WhatsApp/Telegram
         </Typography>

@@ -1,4 +1,5 @@
 export interface IGroup {
+  payerId: number;
   stateCode: AvailableStates;
   mainGroups: IGroupItem[];
   nicheGroups: IGroupItem[];
