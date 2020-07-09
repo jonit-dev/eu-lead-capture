@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { APIHelper } from './helpers/APIHelper';
 import { GenericHelper } from './helpers/GenericHelper';
@@ -7,6 +7,8 @@ import { UrlRedirector } from './pages/UrlRedirector';
 
 function App() {
   // check for some params
+
+  const [canRedirect, setCanRedirect] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
@@ -22,13 +24,15 @@ function App() {
           promoterId: computeUserClick,
           payerId,
         });
+
+        setCanRedirect(true);
       }
     })();
   }, []);
 
   const isRedirectOnly = GenericHelper.getUrlQueryParamByName("ro");
 
-  return isRedirectOnly ? <UrlRedirector /> : <Register />;
+  return isRedirectOnly && canRedirect ? <UrlRedirector /> : <Register />;
 }
 
 export default App;
