@@ -66,12 +66,12 @@ export class GroupHelper {
 
     // fetch groups according to payer id
 
-    const telegramGroups: IGroup[] =
-      TelegramGroups.filter((group) => group.payerId === payerId) ||
-      TelegramGroups.filter((group) => group.payerId === 0);
-    const whatsAppGroups: IGroup[] =
-      WhatsAppGroups.filter((group) => group.payerId === payerId) ||
-      WhatsAppGroups.filter((group) => group.payerId === 0);
+    const telegramGroups: IGroup[] = TelegramGroups.filter(
+      (group) => group.payerId === 0
+    );
+    const whatsAppGroups: IGroup[] = WhatsAppGroups.filter(
+      (group) => group.payerId === 0
+    );
 
     switch (platform) {
       case PlatformType.Telegram:
