@@ -168,37 +168,52 @@ export const WhatsAppGroups: IGroup[] = [
       {
         name: "Emprego Urgente SP - #1",
         url: "https://chat.whatsapp.com/DITRy3cquo38EBkdacf8DS",
-        status: true,
+        status: false,
       },
       {
         name: "Emprego Urgente SP - #2",
         url: "https://chat.whatsapp.com/IpyZFwgaiDBAnGDTMLmV4i",
-        status: true,
+        status: false,
       },
       {
         name: "Emprego Urgente SP - #3",
         url: "https://chat.whatsapp.com/I5wVYy32fKDDKSZldDRa3U",
-        status: true,
+        status: false,
       },
 
       {
         name: "Emprego Urgente SP - #4",
         url: "https://chat.whatsapp.com/GnN84IIcvd15rJs09ukqP7",
-        status: true,
+        status: false,
       },
       {
         name: "Emprego Urgente SP - #5",
         url: "https://chat.whatsapp.com/FGvtUkCrwc6JVeTzxrHPVt",
-        status: true,
+        status: false,
       },
       {
         name: "Emprego Urgente SP - #6",
         url: "https://chat.whatsapp.com/F4QRtu2uLHaLD56MzeYder",
-        status: true,
+        status: false,
       },
       {
         name: "Emprego Urgente SP - #7",
         url: "https://chat.whatsapp.com/I2fbUbALQG7IqgdUrrtO2R",
+        status: false,
+      },
+      {
+        name: "Emprego Urgente SP - #8",
+        url: "https://chat.whatsapp.com/HsXpz7z7Tz7DTjJOB99ys2",
+        status: true,
+      },
+      {
+        name: "Emprego Urgente SP - #9",
+        url: "https://chat.whatsapp.com/Jxwz2YrFc5c4qXMWE6kQNw",
+        status: true,
+      },
+      {
+        name: "Emprego Urgente SP - #10",
+        url: "https://chat.whatsapp.com/FcaWsurSOY6BCRATQVNJEb",
         status: true,
       },
     ],
