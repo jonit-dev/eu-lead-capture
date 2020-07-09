@@ -1,18 +1,18 @@
 import { AvailableStates, IGroup, NicheGroupType } from '../types/groups.types';
 
 export const TelegramGroups: IGroup[] = [
-  {
-    payerId: 1,
-    stateCode: AvailableStates.SP,
-    mainGroups: [
-      {
-        name: "Seu Jobs SP",
-        url: "https://t.me/empregosaopaulo",
-        status: true,
-      },
-    ],
-    nicheGroups: [],
-  },
+  // {
+  //   payerId: 1,
+  //   stateCode: AvailableStates.SP,
+  //   mainGroups: [
+  //     {
+  //       name: "Seu Jobs SP",
+  //       url: "https://t.me/empregosaopaulo",
+  //       status: true,
+  //     },
+  //   ],
+  //   nicheGroups: [],
+  // },
   {
     payerId: 0,
     stateCode: AvailableStates.ES,
@@ -64,18 +64,18 @@ export const TelegramGroups: IGroup[] = [
 ];
 
 export const WhatsAppGroups: IGroup[] = [
-  {
-    payerId: 1, // ! SeuJobs
-    stateCode: AvailableStates.SP,
-    mainGroups: [
-      {
-        name: "Vagas SP",
-        url: "https://chat.whatsapp.com/ChazGTU7tIDAyRYL2WRXoz",
-        status: true,
-      },
-    ],
-    nicheGroups: [],
-  },
+  // {
+  //   payerId: 1, // ! SeuJobs
+  //   stateCode: AvailableStates.SP,
+  //   mainGroups: [
+  //     {
+  //       name: "Vagas SP",
+  //       url: "https://chat.whatsapp.com/ChazGTU7tIDAyRYL2WRXoz",
+  //       status: true,
+  //     },
+  //   ],
+  //   nicheGroups: [],
+  // },
   {
     payerId: 0,
     stateCode: AvailableStates.ES,
@@ -168,28 +168,28 @@ export const WhatsAppGroups: IGroup[] = [
       {
         name: "Emprego Urgente SP - #1",
         url: "https://chat.whatsapp.com/DITRy3cquo38EBkdacf8DS",
-        status: false,
+        status: true,
       },
       {
         name: "Emprego Urgente SP - #2",
         url: "https://chat.whatsapp.com/IpyZFwgaiDBAnGDTMLmV4i",
-        status: false,
+        status: true,
       },
       {
         name: "Emprego Urgente SP - #3",
         url: "https://chat.whatsapp.com/I5wVYy32fKDDKSZldDRa3U",
-        status: false,
+        status: true,
       },
 
       {
         name: "Emprego Urgente SP - #4",
         url: "https://chat.whatsapp.com/GnN84IIcvd15rJs09ukqP7",
-        status: false,
+        status: true,
       },
       {
         name: "Emprego Urgente SP - #5",
         url: "https://chat.whatsapp.com/FGvtUkCrwc6JVeTzxrHPVt",
-        status: false,
+        status: true,
       },
       {
         name: "Emprego Urgente SP - #6",
