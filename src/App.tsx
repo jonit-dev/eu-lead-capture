@@ -24,9 +24,8 @@ function App() {
           promoterId: computeUserClick,
           payerId,
         });
-
-        setCanRedirect(true);
       }
+      setCanRedirect(true);
     })();
   }, []);
 
