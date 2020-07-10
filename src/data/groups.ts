@@ -216,6 +216,21 @@ export const WhatsAppGroups: IGroup[] = [
         url: "https://chat.whatsapp.com/FcaWsurSOY6BCRATQVNJEb",
         status: true,
       },
+      {
+        name: "Emprego Urgente SP - #11",
+        url: "https://chat.whatsapp.com/FdhBsge2jP74Aw6HaudDfr",
+        status: true,
+      },
+      {
+        name: "Emprego Urgente SP - #12",
+        url: "https://chat.whatsapp.com/KjJkrzsJOvQ4RusLr2mQre",
+        status: true,
+      },
+      {
+        name: "Emprego Urgente SP - #13",
+        url: "https://chat.whatsapp.com/IBNakA0N6xFIUhVpKJgEtE",
+        status: true,
+      },
     ],
     nicheGroups: [
       {
