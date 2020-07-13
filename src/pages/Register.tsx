@@ -61,7 +61,7 @@ export const Register = observer(() => {
     jobRoles: [],
     type: userTypeParam || UserType.JobSeeker,
     phone: GenericHelper.getUrlQueryParamByName("phone") || "",
-    platform: platformParam || PlatformType.WhatsApp,
+    platform: platformParam || PlatformType.Telegram,
   });
 
   const classes = useStyles();
@@ -179,7 +179,7 @@ export const Register = observer(() => {
           <Grid container spacing={2}>
             {!platformParam && (
               <Grid item xs={12}>
-                {/* {newLead.platform === PlatformType.WhatsApp && (
+                {newLead.platform === PlatformType.WhatsApp && (
                   <AlertContainer>
                     <Alert severity="warning">
                       Por favor, entre preferencialmente em nosso grupo no{" "}
@@ -196,7 +196,7 @@ export const Register = observer(() => {
                       </a>
                     </Alert>
                   </AlertContainer>
-                )} */}
+                )}
                 {newLead.platform === PlatformType.Telegram && (
                   <AlertContainer>
                     <Alert severity="success">
