@@ -61,7 +61,7 @@ export const Register = observer(() => {
     jobRoles: [],
     type: userTypeParam || UserType.JobSeeker,
     phone: GenericHelper.getUrlQueryParamByName("phone") || "",
-    platform: platformParam || PlatformType.Telegram,
+    platform: platformParam || PlatformType.WhatsApp,
   });
 
   const classes = useStyles();
@@ -179,7 +179,7 @@ export const Register = observer(() => {
           <Grid container spacing={2}>
             {!platformParam && (
               <Grid item xs={12}>
-                {newLead.platform === PlatformType.WhatsApp && (
+                {/* {newLead.platform === PlatformType.WhatsApp && (
                   <AlertContainer>
                     <Alert severity="warning">
                       Por favor, entre preferencialmente em nosso grupo no{" "}
@@ -196,8 +196,8 @@ export const Register = observer(() => {
                       </a>
                     </Alert>
                   </AlertContainer>
-                )}
-                {newLead.platform === PlatformType.Telegram && (
+                )} */}
+                {/* {newLead.platform === PlatformType.Telegram && (
                   <AlertContainer>
                     <Alert severity="success">
                       Obrigado por entrar em nosso grupo do Telegram! Agora você
@@ -205,7 +205,7 @@ export const Register = observer(() => {
                       <strong>vagas exclusivas</strong>!
                     </Alert>
                   </AlertContainer>
-                )}
+                )} */}
                 <FormControl component="fieldset">
                   <FormLabel component="legend">Tipo de Grupo:</FormLabel>
                   <RadioGroup
@@ -485,9 +485,9 @@ const renderCopyright = () => {
     </CopyrightContainer>
   );
 };
-const AlertContainer = styled.div`
-  margin-bottom: 1rem;
-`;
+// const AlertContainer = styled.div`
+//   margin-bottom: 1rem;
+// `;
 
 const MainContainer = styled.div`
   margin-top: 1rem;
