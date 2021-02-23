@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
+import { NicheGroupType } from "@emprego-urgente/shared";
+import React, { useEffect } from "react";
+import styled from "styled-components";
 
-import { GenericHelper } from '../helpers/GenericHelper';
-import { GroupHelper } from '../helpers/GroupHelper';
-import { PlatformType } from '../types/account.types';
-import { NicheGroupType } from '../types/groups.types';
+import { GenericHelper } from "../helpers/GenericHelper";
+import { GroupHelper } from "../helpers/GroupHelper";
+import { PlatformType } from "../types/account.types";
 
 export const UrlRedirector = () => {
   useEffect(() => {

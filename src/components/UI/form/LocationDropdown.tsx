@@ -1,14 +1,14 @@
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { observer } from 'mobx-react';
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import { ICity, IProvince } from "@emprego-urgente/shared";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { observer } from "mobx-react";
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 
-import { useStores } from '../../../store/store';
-import { ICity, IProvince } from '../../../types/form.types';
+import { useStores } from "../../../store/store";
 
 export const LocationDropdown = observer(() => {
   const { formStore } = useStores();

@@ -1,8 +1,7 @@
-import _ from 'lodash';
+import { AvailableStates, IGroup, NicheGroupType, TelegramGroups, WhatsAppGroups } from "@emprego-urgente/shared";
+import _ from "lodash";
 
-import { TelegramGroups, WhatsAppGroups } from '../data/groups';
-import { PlatformType } from '../types/account.types';
-import { AvailableStates, IGroup, NicheGroupType } from '../types/groups.types';
+import { PlatformType } from "../types/account.types";
 
 export class GroupHelper {
   private static _findGroupByState = (

@@ -1,8 +1,8 @@
-import { action, observable } from 'mobx';
+import { ICity, IProvince } from "@emprego-urgente/shared";
+import { action, observable } from "mobx";
 
-import { APIHelper } from '../helpers/APIHelper';
-import { ILead } from '../types/account.types';
-import { ICity, IProvince } from '../types/form.types';
+import { APIHelper } from "../helpers/APIHelper";
+import { ILead } from "../types/account.types";
 
 export class FormStore {
   @observable selectedCity;
